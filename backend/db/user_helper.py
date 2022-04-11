@@ -1,6 +1,6 @@
 from bson.objectid import ObjectId
 
-from backend.database import USER_COLLECTION
+from database import USER_COLLECTION
 
 
 def to_dict(self) -> dict:

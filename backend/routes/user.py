@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
-from backend.db.user_helper import (
+from db.user_helper import (
     add_user,
     delete_user,
     retrieve_user,
@@ -9,7 +9,7 @@ from backend.db.user_helper import (
     update_user
 )
 
-from backend.models.user import (
+from models.user import (
     ErrorResponseModel,
     ResponseModel,
     UserSchema,

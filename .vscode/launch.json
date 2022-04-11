@@ -5,9 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: backend",
             "type": "python",
             "request": "launch",
+            "cwd": "${workspaceFolder}/backend",
             "program": "main.py",
             "console": "integratedTerminal",
             "justMyCode": true
