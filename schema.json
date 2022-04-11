@@ -1,0 +1,72 @@
+{
+    "projects": {
+        "_id": "objectId",
+        "value": {
+            "name": "string",
+            "description": "string",
+            "content": "string",
+            "createdAt": "date",
+            "updatedAt": "date",
+            "createdBy": "objectId",
+            "updatedBy": "objectId",
+            "archived": "bool",
+            "plans": "array",
+            "tags": "array"
+        }
+    },
+    "plans": {
+        "_id": "objectId",
+        "value": {
+            "name": "string",
+            "description": "string",
+            "content": "string",
+            "version": "string",
+            "createdAt": "date",
+            "updatedAt": "date",
+            "createdBy": "objectId",
+            "updatedBy": "objectId",
+            "archived": "bool",
+            "suites": "array",
+            "tags": "array"
+        }
+    },
+    "suites": {
+        "_id": "objectId",
+        "value": {
+            "name": "string",
+            "description": "string",
+            "content": "string",
+            "createdAt": "date",
+            "updatedAt": "date",
+            "createdBy": "objectId",
+            "updatedBy": "objectId",
+            "archived": "bool",
+            "tests": "array",
+            "tags": "array"
+        }
+    },
+    "tests": {
+        "_id": "objectId",
+        "value": {
+            "name": "string",
+            "description": "string",
+            "content": "string",
+            "createdAt": "date",
+            "updatedAt": "date",
+            "createdBy": "objectId",
+            "updatedBy": "objectId",
+            "archived": "bool",
+            "tags": "array"
+        }
+    },
+    "users": {
+        "_id": "objectId",
+        "createdAt": "date",
+        "updatedAt": "date",
+        "enabled": "bool",
+        "full_name": "string",
+        "initials": "string",
+        "email": "string",
+        "avatar_image": "binData"
+    }
+}
