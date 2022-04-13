@@ -25,5 +25,5 @@ app.include_router(users.router, tags=["Users"], prefix="/users")
 
 # @app.get("/", tags=["Root"])
 # async def read_root():
-#     return {"message": "Welcome to this fantastic app!"}
+#     return {"message": ""}
 
