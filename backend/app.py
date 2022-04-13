@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from routes import plan, project, suite, test, user
+from routes import plans, projects, suites, tests, users
 
 
 app = FastAPI()
@@ -17,11 +16,11 @@ app.add_middleware(
         allow_headers=["*"]
 )
 
-app.include_router(plan.router, tags=["Plans"], prefix="/plans")
-app.include_router(project.router, tags=["Projects"], prefix="/projects")
-app.include_router(suite.router, tags=["Suites"], prefix="/suites")
-app.include_router(test.router, tags=["Tests"], prefix="/tests")
-app.include_router(user.router, tags=["Users"], prefix="/users")
+app.include_router(plans.router, tags=["Plans"], prefix="/plans")
+app.include_router(projects.router, tags=["Projects"], prefix="/projects")
+app.include_router(suites.router, tags=["Suites"], prefix="/suites")
+app.include_router(tests.router, tags=["Tests"], prefix="/tests")
+app.include_router(users.router, tags=["Users"], prefix="/users")
 
 
 # @app.get("/", tags=["Root"])
