@@ -7,7 +7,8 @@ class ProjectSchema(BaseModel):
     name: str = Field(...)
     description: str = Field(...)
     content: str = Field(...)
-    archived: bool = Field(True)
+    tags: list = Field([])
+    archived: bool = Field(False)
 
     class Config:
         schema_extra = {
@@ -15,6 +16,7 @@ class ProjectSchema(BaseModel):
                 "name": "Default",
                 "description": "Default project used to track testing",
                 "content": "This can be used to store various *markdown* describing the project.",
+                "tags": ["acceptance", "integration", "load", "system"],
                 "archived": False
             }
         }
@@ -24,6 +26,7 @@ class UpdateProjectModel(BaseModel):
     name: Optional[str]
     description: Optional[str]
     content: Optional[str]
+    tags: Optional[list]
     archived: Optional[bool]
 
     class Config:
@@ -32,6 +35,7 @@ class UpdateProjectModel(BaseModel):
                 "name": "Default",
                 "description": "Default project used to track testing",
                 "content": "This can be used to store various *markdown* describing the project.",
+                "tags": ["acceptance", "integration", "load", "system"],
                 "archived": False
             }
         }
