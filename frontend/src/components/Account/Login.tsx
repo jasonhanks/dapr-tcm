@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
 
+import { 
+    Box,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Input,
+    Text,
+    useColorModeValue
+} from "@chakra-ui/react"
+
 import './Login.css'
 import submitJSON from '../../utils'
 
@@ -35,35 +45,44 @@ export default function Login(args: any) {
     
     // Render the login form
     return(
+
         <div className="login-wrapper">
-            <h1>Please Log In</h1>
-            <form action="" method="post" onSubmit={handleSubmit}>
-            <label>
-                <p>Email Address</p>
-                <input name="username" type="text" onChange={(e) => setUsername(e.target.value)} />
-            </label>
-            <label>
-                <p>Password</p>
-                <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} />
-            </label>
-            <div>
-                <br />
-                <button type="submit">Submit</button>
-            </div>
-            </form>
+            <Box minH="60vh" w="80" bg="white">
+                <Text fontSize={20} fontWeight={500}>Login</Text>
+                <br/>
+                <form action="" method="post" onSubmit={handleSubmit}>
 
-            <br /> <br />
-            <div id="errors">{ errors }</div>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='username'>Email address</FormLabel>
+                    <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
+                    <FormHelperText>We'll never share your email.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='password'>Password</FormLabel>
+                    <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
+                    <FormHelperText>Never reuse or share your passwords.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl>
+                    <Input id='login' type='Submit' onClick={handleSubmit} />
+                    <FormHelperText>Login to your account.</FormHelperText>
+                </FormControl>
+                </form>
 
-            <br/><br/>
-            New user? 
-            <userContext.Consumer>
-                {({toggleSignup}) => {
-                  return (
-                    <a href="#" onClick={(e) =>  toggleSignup() }>Sign Up!</a>
-                    )
-                }}
-            </userContext.Consumer>
+                <div id="errors">{ errors }</div>
+                <br/>
+                <div>
+                    New user? &nbsp;
+                    <userContext.Consumer>
+                        {({toggleSignup}) => {
+                        return (
+                            <a href="#" onClick={(e) =>  toggleSignup() }>Click here to Sign Up!</a>
+                            )
+                        }}
+                    </userContext.Consumer>
+                </div>
+            </Box>
         </div>
     )
 }
