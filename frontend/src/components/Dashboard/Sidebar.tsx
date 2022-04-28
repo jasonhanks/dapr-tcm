@@ -1,10 +1,8 @@
 import React, { ReactNode } from 'react';
 import {
   IconButton,
-  Avatar,
   Box,
   Button,
-  Center,
   CloseButton,
   Flex,
   HStack,
@@ -18,12 +16,6 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  useColorMode
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -34,11 +26,13 @@ import {
   FiMenu,
   FiBell,
   FiBook,
+ 
 } from 'react-icons/fi';
 import { IconType } from 'react-icons'
+import { HamburgerIcon } from '@chakra-ui/icons'
 import { ReactText } from 'react'
 
-import {userContext} from './App/context'
+import UserMenu from "./UserMenu"
 
 
 interface LinkItemProps {
@@ -60,13 +54,14 @@ export default function SidebarWithHeader(
   {
   children
   }: {
-  children: ReactNode;
+  children: ReactNode
 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
-        onClose={() => onClose}
+        onClose={() => onClose()}
+        onToggle={() => onToggle()}
         display={{ base: 'none', md: 'block' }}
       />
       <Drawer
@@ -75,10 +70,9 @@ export default function SidebarWithHeader(
         placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
+        onOverlayClick={onClose}>
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} onToggle={onToggle} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -91,31 +85,26 @@ export default function SidebarWithHeader(
 }
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void;
+  onClose: () => void
+  onToggle: () => void
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, onToggle, ...rest }: SidebarProps) => {
   return (
     <Box
-      transition="3s ease"
+      transition="2s ease"
       bg={useColorModeValue('teal.400', 'teal.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('teal.400', 'teal.900')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full', md: 40 }}
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-          <Text fontWeight={800} fontSize={24}>
-            {/* <Button><HamburgerIcon /></Button> &nbsp; */}
+      <Flex h="12" alignItems="center" mx="4" justifyContent="space-between">
+          <Text fontWeight={800} fontSize={22}>
             DAPR TCM
-            <Select value="1" variant='filled' display="inline-block" width="initial">
-              <option value="1">Sample Project</option>
-              {/* <option>-- Add a new Project --</option> */}
-            </Select>
           </Text>
-
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} >Close</CloseButton>
+        {/* <CloseButton display={{ base: 'flex', md: '4' }} onClick={onClose} ></CloseButton> */}
       </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}>
@@ -123,8 +112,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </NavItem>
       ))}
     </Box>
-  );
-};
+  )
+}
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
@@ -167,12 +156,11 @@ interface MobileProps extends FlexProps {
 
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-    const { colorMode, toggleColorMode } = useColorMode();
     return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, md: 40 }}
       px={{ base: 4, md: 4 }}
-      height="16"
+      height="12"
       alignItems="center"
       bg={useColorModeValue('teal.400', 'teal.900')}
       borderBottomWidth="1px"
@@ -187,71 +175,22 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold">
-        Logo
-      </Text>
+      <p>Project: &nbsp;</p>
+      <Select variant='filled' display="inline-block" width="initial">
+        <option value="1">Sample Project</option>
+        <option>-- Add a new Project --</option>
+      </Select>
 
       <HStack spacing={{ base: '0', md: '6' }}>
+
         <IconButton
           size="lg"
           variant="link"
           aria-label="open menu"
           icon={<FiBell />}
         />
-        <Flex alignItems={'center'}>
-          <Menu>
-            <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                size={'sm'}
-                src={'https://avatars.dicebear.com/api/male/username.svg'}
-                />
-            </MenuButton>
-            <MenuList alignItems={'center'}>
-                <br />
-                <Center>
-                <Avatar
-                    size={'2xl'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
-                />
-                </Center>
-                <br />
-                <Center>
-                <userContext.Consumer>
-                {(user) => {
-                  return (
-                    <p>{user.user.full_name}</p>
-                  )
-                }}
-                </userContext.Consumer>
-                </Center>
-                <br />
-                <MenuDivider />
-                <MenuItem>Account Settings</MenuItem>
-                <MenuItem onClick={toggleColorMode}>Toggle Light / Dark Mode</MenuItem>
-                <MenuDivider />
-                <MenuItem>Settings</MenuItem>
-                <MenuDivider />
 
-                <userContext.Consumer>
-                {({logoutUser}) => {
-                  return (
-                    <MenuItem onClick={() => { logoutUser() }}>Sign Out</MenuItem>
-                  )
-                }}
-                </userContext.Consumer>
-                
-            </MenuList>
-            </Menu>
-        </Flex>
+        <UserMenu />
       </HStack>
     </Flex>
   );
