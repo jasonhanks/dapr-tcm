@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 
 import { 
-    Box,
     FormControl,
     FormHelperText,
     FormLabel,
     Input,
     Text,
-    useColorModeValue
 } from "@chakra-ui/react"
 
 import './Login.css'
@@ -47,42 +45,39 @@ export default function Login(args: any) {
     return(
 
         <div className="login-wrapper">
-            <Box minH="60vh" w="80" bg="white">
-                <Text fontSize={20} fontWeight={500}>Login</Text>
-                <br/>
-                <form action="" method="post" onSubmit={handleSubmit}>
+            <Text fontSize={20} fontWeight={500}>Login to Account</Text>
+            <br/>
+            <form action="" method="post" onSubmit={handleSubmit}>
 
-                <FormControl isRequired>
-                    <FormLabel htmlFor='username'>Email address</FormLabel>
-                    <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                    <FormHelperText>We'll never share your email.</FormHelperText>
-                </FormControl>
-                <br/>
-                <FormControl isRequired>
-                    <FormLabel htmlFor='password'>Password</FormLabel>
-                    <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
-                    <FormHelperText>Never reuse or share your passwords.</FormHelperText>
-                </FormControl>
-                <br/>
-                <FormControl>
-                    <Input id='login' type='Submit' onClick={handleSubmit} />
-                    <FormHelperText>Login to your account.</FormHelperText>
-                </FormControl>
-                </form>
+            <FormControl isRequired>
+                <FormLabel htmlFor='username'>Email address</FormLabel>
+                <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
+                <FormHelperText>We'll never share your email.</FormHelperText>
+            </FormControl>
+            <br/>
+            <FormControl isRequired>
+                <FormLabel htmlFor='password'>Password</FormLabel>
+                <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
+                <FormHelperText>Never reuse or share your passwords.</FormHelperText>
+            </FormControl>
+            <br/>
+            <FormControl>
+                <Input id='login' type='Submit' onClick={handleSubmit} />
+                <FormHelperText>Login to your account.</FormHelperText>
+            </FormControl>
+            </form>
 
-                <div id="errors">{ errors }</div>
-                <br/>
-                <div>
-                    New user? &nbsp;
-                    <userContext.Consumer>
-                        {({toggleSignup}) => {
-                        return (
-                            <a href="#" onClick={(e) =>  toggleSignup() }>Click here to Sign Up!</a>
-                            )
-                        }}
-                    </userContext.Consumer>
-                </div>
-            </Box>
+            <div id="errors">{ errors }</div>
+            <br/>
+            <div>
+                <userContext.Consumer>
+                    {({toggleSignup}) => {
+                    return (
+                        <a href="#" onClick={(e) =>  toggleSignup() }>New user? Click here to Sign Up!</a>
+                        )
+                    }}
+                </userContext.Consumer>
+            </div>
         </div>
     )
 }

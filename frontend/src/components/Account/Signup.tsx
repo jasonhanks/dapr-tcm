@@ -1,4 +1,11 @@
 import React, { useState } from 'react'
+import {
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Input,
+    Text
+} from '@chakra-ui/react'
 
 import './Signup.css'
 import submitJSON from '../../utils'
@@ -42,44 +49,54 @@ export default function Signup(args: any) {
     // Render the login form
     return(
         <div className="login-wrapper">
-            <h1>Sign Up</h1>
+
+            <Text fontSize={20} fontWeight={500}>Signup for Account</Text>
+            <br/>
+
             <form action="" method="post" onSubmit={handleSubmit}>
-            <label>
-                <p>Email Address</p>
-                <input name="username" type="text" onChange={(e) => setUsername(e.target.value)} />
-            </label>
-            <label>
-                <p>Full Name</p>
-                <input name="full_name" type="text" onChange={(e) => setFullName(e.target.value)} />
-            </label>
-            <label>
-                <p>Initials</p>
-                <input name="initials" type="text" onChange={(e) => setInitials(e.target.value)} />
-            </label>
-            <label>
-                <p>Password</p>
-                <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} />
-            </label>
-            <label>
-                <p>Password Confirmation</p>
-                <input name="password_confirm" type="password" onChange={(e) => setPasswordConfirm(e.target.value)} />
-            </label>
-            <div>
-                <br />
-                <button type="submit">Submit</button>
-            </div>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='username'>Email address</FormLabel>
+                    <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
+                    <FormHelperText>We'll never share your email.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='full_name'>Full Name</FormLabel>
+                    <Input id='full_name' name="full_name" type='text' onChange={(e) => setFullName(e.target.value)} />
+                    <FormHelperText>Enter your preferred full name to use.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='initials'>Initials</FormLabel>
+                    <Input id='initials' name="initials" type='text' onChange={(e) => setInitials(e.target.value)} />
+                    <FormHelperText>Enter your preferred short name / initials to use.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='password'>Password</FormLabel>
+                    <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
+                    <FormHelperText>Never reuse or share your passwords.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl isRequired>
+                    <FormLabel htmlFor='password_confirm'>Confirm Password</FormLabel>
+                    <Input id='password_confirm' name="password_confirm" type='password' onChange={(e) => setPasswordConfirm(e.target.value)} />
+                    <FormHelperText>Please confirm your new password.</FormHelperText>
+                </FormControl>
+                <br/>
+                <FormControl>
+                    <Input id='login' type='Submit' onClick={handleSubmit} />
+                    <FormHelperText>Create your new account.</FormHelperText>
+                </FormControl>
             </form>
 
-            <br /> <br />
             <div id="errors">{ errors }</div>
 
-            <br/><br/>
-            Existing user? 
-            {/* <a href="#"  onClick={(e) => args.setSignup(false)}>Login to your account</a> */}
+            <br/>            
             <userContext.Consumer>
                 {({signup, toggleSignup}) => {
                   return (
-                    <a href="#" onClick={(e) =>  toggleSignup() }>Login to existing account!</a>
+                    <a href="#" onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</a>
                     )
                 }}
             </userContext.Consumer>
