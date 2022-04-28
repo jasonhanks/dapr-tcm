@@ -5,13 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: backend",
-            "type": "python",
+            "name": "NPM: backend",
             "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "dev"
+            ],
             "cwd": "${workspaceFolder}/backend",
-            "program": "main.py",
-            "console": "internalConsole",
-            "justMyCode": true
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
         },
         {
             "name": "NPM: frontend",

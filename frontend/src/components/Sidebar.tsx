@@ -35,8 +35,10 @@ import {
   FiBell,
   FiBook,
 } from 'react-icons/fi';
-import { IconType } from 'react-icons';
-import { ReactText } from 'react';
+import { IconType } from 'react-icons'
+import { ReactText } from 'react'
+
+import {userContext} from './App/context'
 
 
 interface LinkItemProps {
@@ -54,9 +56,10 @@ const LinkItems: Array<LinkItemProps> = [
 //   { name: 'Settings', icon: FiSettings },
 ];
 
-export default function SidebarWithHeader({
-  children,
-}: {
+export default function SidebarWithHeader(
+  {
+  children
+  }: {
   children: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -159,8 +162,10 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
 };
 
 interface MobileProps extends FlexProps {
-  onOpen: () => void;
+  onOpen: () => void
 }
+
+
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
@@ -220,7 +225,13 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 </Center>
                 <br />
                 <Center>
-                <p>John Doe</p>
+                <userContext.Consumer>
+                {(user) => {
+                  return (
+                    <p>{user.user.full_name}</p>
+                  )
+                }}
+                </userContext.Consumer>
                 </Center>
                 <br />
                 <MenuDivider />
@@ -229,7 +240,15 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 <MenuDivider />
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign Out</MenuItem>
+
+                <userContext.Consumer>
+                {({logoutUser}) => {
+                  return (
+                    <MenuItem onClick={() => { logoutUser() }}>Sign Out</MenuItem>
+                  )
+                }}
+                </userContext.Consumer>
+                
             </MenuList>
             </Menu>
         </Flex>

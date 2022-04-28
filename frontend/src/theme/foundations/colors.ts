@@ -1,4 +1,5 @@
-export default {
+
+var colorSettings = {
     // Teal color grading
     tcm: {
         50:  '#1D4044',
@@ -12,3 +13,5 @@ export default {
         900: '#B2F5EA',
     }
 }
+
+export default colorSettings

@@ -1,6 +1,9 @@
 import { theme as base } from "@chakra-ui/react"
 
-export default {
+
+var fontSettings = {
     heading: `Roboto, ${base.fonts?.heading}`,
     body: `Roboto, ${base.fonts?.body}`,
 }
+
+export default fontSettings
