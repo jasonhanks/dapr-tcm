@@ -1,11 +1,11 @@
 import React from 'react'
 
-import SidebarWithHeader from "./Sidebar"
+import Sidebar from "./Sidebar"
 
 
 export default function Dashboard(args: any) {
   return(
-      <SidebarWithHeader>
-      </SidebarWithHeader>
+      <Sidebar>
+      </Sidebar>
   )
 }
