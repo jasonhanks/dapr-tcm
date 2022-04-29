@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
 
+import { 
+    FormControl,
+    FormErrorMessage,
+    FormHelperText,
+    FormLabel,
+    Input,
+    Text,
+} from "@chakra-ui/react"
+
 import './Login.css'
 import submitJSON from '../../utils'
 
@@ -14,7 +23,7 @@ export default function Login(args: any) {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        setErrors("")
+        setErrors('')
 
         // Post the login form to the backend
         const results = await submitJSON('/api/users/login', {
@@ -32,38 +41,65 @@ export default function Login(args: any) {
             setErrors("Invalid username or password")
         }
     }
-    
+
+    const validatePassword = (): boolean => {
+        if (password.length < 8) return false
+        return true
+    }
+
     // Render the login form
     return(
         <div className="login-wrapper">
-            <h1>Please Log In</h1>
+            <Text fontSize={20} fontWeight={500}>Login to Account</Text>
+            <br/>
             <form action="" method="post" onSubmit={handleSubmit}>
-            <label>
-                <p>Email Address</p>
-                <input name="username" type="text" onChange={(e) => setUsername(e.target.value)} />
-            </label>
-            <label>
-                <p>Password</p>
-                <input name="password" type="password" onChange={(e) => setPassword(e.target.value)} />
-            </label>
-            <div>
-                <br />
-                <button type="submit">Submit</button>
-            </div>
+
+            <FormControl isRequired isInvalid={username.length < 5}>
+                <FormLabel htmlFor='username'>Email address</FormLabel>
+                <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
+                {username === '' ? (
+                        <FormHelperText>Email address is required as your login.</FormHelperText>
+                    ) : (
+                        <FormErrorMessage>Enter your login email address.</FormErrorMessage>
+                )}
+            </FormControl>
+            <br/>
+            <FormControl isRequired isInvalid={!validatePassword()}>
+                <FormLabel htmlFor='password'>Password</FormLabel>
+                <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
+                {validatePassword() ? 
+                        <FormHelperText>Never reuse or share your passwords with anyone.</FormHelperText>
+                     : 
+                        <FormErrorMessage>Enter a valid password.</FormErrorMessage>
+                }
+            </FormControl>
+            <br/>
+            <FormControl>
+                <Input id='login' type='Submit' onClick={handleSubmit} />
+                <FormHelperText>Login to your account.</FormHelperText>
+            </FormControl>
             </form>
 
-            <br /> <br />
-            <div id="errors">{ errors }</div>
+            <br/>
+            <FormControl>
+                {() => errors.length > 0 &&
+                    <FormErrorMessage>Enter your login email address.</FormErrorMessage>
+                }
+            </FormControl>
 
-            <br/><br/>
-            New user? 
-            <userContext.Consumer>
-                {({toggleSignup}) => {
-                  return (
-                    <a href="#" onClick={(e) =>  toggleSignup() }>Sign Up!</a>
-                    )
-                }}
-            </userContext.Consumer>
+            <div id="errors" className="errors">{ errors }</div>
+            <br/>
+            <div>
+                <userContext.Consumer>
+                    {({toggleSignup}) => {
+                    return (
+                        <a href="#" onClick={(e) =>  toggleSignup() }>New user? Click here to Sign Up!</a>
+                        )
+                    }}
+                </userContext.Consumer>
+
+                <br/>
+            </div>
         </div>
     )
 }
