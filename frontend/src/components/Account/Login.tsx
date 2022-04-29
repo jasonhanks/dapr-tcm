@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { 
     FormControl,
+    FormErrorMessage,
     FormHelperText,
     FormLabel,
     Input,
@@ -22,7 +23,7 @@ export default function Login(args: any) {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        setErrors("")
+        setErrors('')
 
         // Post the login form to the backend
         const results = await submitJSON('/api/users/login', {
@@ -40,25 +41,37 @@ export default function Login(args: any) {
             setErrors("Invalid username or password")
         }
     }
-    
+
+    const validatePassword = (): boolean => {
+        if (password.length < 8) return false
+        return true
+    }
+
     // Render the login form
     return(
-
         <div className="login-wrapper">
             <Text fontSize={20} fontWeight={500}>Login to Account</Text>
             <br/>
             <form action="" method="post" onSubmit={handleSubmit}>
 
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={username.length < 5}>
                 <FormLabel htmlFor='username'>Email address</FormLabel>
                 <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                <FormHelperText>We'll never share your email.</FormHelperText>
+                {username === '' ? (
+                        <FormHelperText>Email address is required as your login.</FormHelperText>
+                    ) : (
+                        <FormErrorMessage>Enter your login email address.</FormErrorMessage>
+                )}
             </FormControl>
             <br/>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={!validatePassword()}>
                 <FormLabel htmlFor='password'>Password</FormLabel>
                 <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
-                <FormHelperText>Never reuse or share your passwords.</FormHelperText>
+                {validatePassword() ? 
+                        <FormHelperText>Never reuse or share your passwords with anyone.</FormHelperText>
+                     : 
+                        <FormErrorMessage>Enter a valid password.</FormErrorMessage>
+                }
             </FormControl>
             <br/>
             <FormControl>
@@ -67,7 +80,14 @@ export default function Login(args: any) {
             </FormControl>
             </form>
 
-            <div id="errors">{ errors }</div>
+            <br/>
+            <FormControl>
+                {() => errors.length > 0 &&
+                    <FormErrorMessage>Enter your login email address.</FormErrorMessage>
+                }
+            </FormControl>
+
+            <div id="errors" className="errors">{ errors }</div>
             <br/>
             <div>
                 <userContext.Consumer>
@@ -77,6 +97,8 @@ export default function Login(args: any) {
                         )
                     }}
                 </userContext.Consumer>
+
+                <br/>
             </div>
         </div>
     )

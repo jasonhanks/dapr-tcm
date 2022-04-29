@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
     FormControl,
+    FormErrorMessage,
     FormHelperText,
     FormLabel,
     Input,
@@ -45,8 +46,12 @@ export default function Signup(args: any) {
             setErrors(results.errors)
         }
     }
-    
-    // Render the login form
+ 
+    const validatePassword = (): boolean => {
+        if (password.length <= 8) return false
+        return true
+    }
+        // Render the login form
     return(
         <div className="login-wrapper">
 
@@ -54,10 +59,16 @@ export default function Signup(args: any) {
             <br/>
 
             <form action="" method="post" onSubmit={handleSubmit}>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={username.length < 5}>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
                     <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                    <FormHelperText>We'll never share your email.</FormHelperText>
+                    {username === '' ? (
+                        <FormHelperText>
+                        Enter the email you'd like to use as your login.
+                        </FormHelperText>
+                    ) : (
+                        <FormErrorMessage>Email is required in order to create your account.</FormErrorMessage>
+                    )}
                 </FormControl>
                 <br/>
                 <FormControl isRequired>
@@ -72,13 +83,13 @@ export default function Signup(args: any) {
                     <FormHelperText>Enter your preferred short name / initials to use.</FormHelperText>
                 </FormControl>
                 <br/>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={validatePassword()}>
                     <FormLabel htmlFor='password'>Password</FormLabel>
                     <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
                     <FormHelperText>Never reuse or share your passwords.</FormHelperText>
                 </FormControl>
                 <br/>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={validatePassword() && (password != password_confirm)}>
                     <FormLabel htmlFor='password_confirm'>Confirm Password</FormLabel>
                     <Input id='password_confirm' name="password_confirm" type='password' onChange={(e) => setPasswordConfirm(e.target.value)} />
                     <FormHelperText>Please confirm your new password.</FormHelperText>
@@ -100,6 +111,8 @@ export default function Signup(args: any) {
                     )
                 }}
             </userContext.Consumer>
+
+            <br/>
         </div>
     )
 }
