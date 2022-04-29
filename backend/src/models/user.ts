@@ -10,6 +10,7 @@ export interface IUser {
     full_name: string
     initials: string
     password: string
+    is_admin: boolean
 }
 
 
@@ -30,7 +31,11 @@ export const Schema = new mongoose.Schema<IUser>({
     password: {
         required: true,
         type: String
-    }
+    },
+    is_admin: {
+        required: true,
+        type: Boolean
+    },
 })
 
 
@@ -39,6 +44,22 @@ export const Schema = new mongoose.Schema<IUser>({
  */
 Schema.methods.authenticate = async function (this: IUser, password: string, callback: Function) {
     await bcrypt.compare(password, this.password, (err, result) => callback(result) )
+}
+
+
+/**
+ * Encrypt the plain text password and generate an encrypted password to store.
+ * @param password the plain text password to encrypt
+ * @param callback the callback to invoke with the encrypted password
+ */
+Schema.statics.encryptPassword = (password: string, callback: Function) => {
+    // Generate a unique salt for this password
+    bcrypt.genSalt(10, (err: any, salt: string) => {
+        if (err) return callback(err)
+   
+        // Hash the password using the unique salt
+        bcrypt.hash(password, salt, function(err: any, hash: string) { return callback(err, hash) })
+      })
 }
 
 

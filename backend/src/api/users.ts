@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt"
 import express, {Request, Response} from "express"
 import { body, validationResult  } from 'express-validator'
 
@@ -9,23 +8,6 @@ const User = require('../models/user')
 
 // Retrieve the router so we can define endpoints
 const router = express.Router()
-
-
-/**
- * HELPER methods
- */
-
-
-// Encrypt a password to store for a User
-const encryptPassword = (password: string, callback: Function) => {
-    // Generate a unique salt for this password
-    bcrypt.genSalt(10, (err: any, salt: string) => {
-     if (err) return callback(err)
-
-     // Hash the password using the unique salt
-     bcrypt.hash(password, salt, function(err: any, hash: string) { return callback(err, hash) })
-   })
- }
 
 
  /**
@@ -95,15 +77,18 @@ router.post('/',
             return response.status(401).json({ errors: "User already exists!" })
 
         // Encrypt the password before creating the User and storing them
-        encryptPassword(request.body.password, (err: any, hash: string) => {
+        await User.encryptPassword(request.body.password, async (err: any, hash: string) => {
             if (err) return response.status(401).json(err)
+
+            const results = await User.findOne({ is_admin: true}).exec()
 
             // Create the User from the request
             const user = new User({ 
                 username: request.body.username,
                 initials: request.body.initials,
                 password: hash,
-                full_name: request.body.full_name
+                full_name: request.body.full_name,
+                is_admin: results == null
             })
 
             // Save the User to the DB
