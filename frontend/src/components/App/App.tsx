@@ -9,6 +9,7 @@ import theme from '../../theme'
 import AccountSettings from '../Account/Settings'
 import AboutUs from './AboutUs'
 import CreateProject from "../Project/Create"
+import Disclaimer from './Disclaimer'
 import Home from '../Dashboard/Home'
 import Login from '../Account/Login'
 import Projects from "../Project/Projects"
@@ -18,15 +19,13 @@ import ViewProject from "../Project/ViewProject"
 
 
 const App = () => {
-  const [signup, setSignup] = useState(false);
-  const [user, setUser] = useState(null);
+  const [signup, setSignup] = useState(false)
+  const [user, setUser] = useState(null)
 
   return (
       <userContext.Provider value={{
         logoutUser: () => setUser(null),
-        toggleSignup: () => {
-          setSignup(!signup)
-        },
+        toggleSignup: () => setSignup(!signup),
         signup: signup,
         user: user,
       }}>
@@ -48,6 +47,7 @@ const App = () => {
               </Routes>
             </BrowserRouter>
           }
+          <Disclaimer />
         </ChakraProvider>
       </userContext.Provider>
     )
