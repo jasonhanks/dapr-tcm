@@ -3,16 +3,17 @@ import {
     Text
 } from "@chakra-ui/react"
 
-import Sidebar from "../Dashboard/Sidebar"
+import NavBar from "../Dashboard/NavBar"
 
 
 export default function CreateProject(args: any) {
-  return(
-      <Sidebar>
-          <Text fontSize={22} fontWeight={500}>
-            Create New Project
-          </Text>
-          
-      </Sidebar>
+  return (
+    <div>
+      <NavBar />
+      <Text fontSize={22} fontWeight={500}>
+        Projects | Create New Project
+      </Text>
+      <br/>
+    </div>
   )
 }

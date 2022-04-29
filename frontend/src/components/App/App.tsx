@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import {
-  ChakraProvider,
-} from "@chakra-ui/react"
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-import theme from '../../theme'
-import Home from '../Dashboard/Home'
-import Login from '../Account/Login'
-import Signup from '../Account/Signup'
-import AccountSettings from '../Account/Settings'
+import { useState } from 'react'
+import { ChakraProvider, } from "@chakra-ui/react"
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import {userContext} from './context'
 
+import theme from '../../theme'
+
+import AccountSettings from '../Account/Settings'
+import AboutUs from './AboutUs'
 import CreateProject from "../Project/Create"
+import Home from '../Dashboard/Home'
+import Login from '../Account/Login'
 import Projects from "../Project/Projects"
+import Settings from './Settings'
+import Signup from '../Account/Signup'
 import ViewProject from "../Project/ViewProject"
 
 
@@ -32,13 +32,9 @@ const App = () => {
       }}>
 
         <ChakraProvider theme={theme}>
-          {user == null && signup == true &&
-            <Signup setUser={setUser} />
-          }
-          {user == null && signup == false &&
-            <Login setUser={setUser} />
-          }
-
+          {user == null && signup == true && <Signup setUser={setUser} /> }
+          {user == null && signup == false && <Login setUser={setUser} /> }
+      
           { user != null &&
             <BrowserRouter>
               <Routes>
@@ -47,12 +43,13 @@ const App = () => {
                 <Route path="/projects" element={<Projects />}  />
                 <Route path="/projects/:id" element={<ViewProject />} />
                 <Route path="/projects/new" element={<CreateProject />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/about" element={<AboutUs />} />
               </Routes>
             </BrowserRouter>
           }
         </ChakraProvider>
       </userContext.Provider>
-      
     )
   }
 

@@ -3,16 +3,16 @@ import {
   Text
 } from "@chakra-ui/react"
 
-import Sidebar from "./Sidebar"
+import NavBar from "./NavBar"
 
 
 export default function Home(args: any) {
   return(
-      <Sidebar>
-          <Text fontSize={22} fontWeight={500}>
-            Home
-          </Text>
-
-      </Sidebar>
+      <div>
+        <NavBar />
+        <Text fontSize={22} fontWeight={500}>
+          Home
+        </Text>
+      </div>
   )
 }

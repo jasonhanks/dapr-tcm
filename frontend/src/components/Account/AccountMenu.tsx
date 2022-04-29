@@ -14,7 +14,7 @@ import {
 import {userContext} from '../App/context'
 
 
-const UserMenu = () => {
+const AccountMenu = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
         <userContext.Consumer>
@@ -37,23 +37,19 @@ const UserMenu = () => {
                           <br />
                           <Center>
                           <Avatar
-                              size={'2xl'}
+                              size={'xl'}
                               src={'https://avatars.dicebear.com/api/male/username.svg'}
                           />
                           </Center>
-                          <br />
                           <Center>
                               <div>
                                   <Center>{user.full_name}</Center>
                                   <Center>{user.username}</Center>
                               </div>
                           </Center>
-                          <br />
                           <MenuDivider />
                           <MenuItem>Account Settings</MenuItem>
                           <MenuItem onClick={toggleColorMode}>Toggle Light / Dark Mode</MenuItem>
-                          <MenuDivider />
-                          <MenuItem>Settings</MenuItem>
                           <MenuDivider />
                           <MenuItem onClick={() => { logoutUser() }}>Sign Out</MenuItem>
                       </MenuList>
@@ -66,4 +62,4 @@ const UserMenu = () => {
     )
 }
 
-export default UserMenu
+export default AccountMenu

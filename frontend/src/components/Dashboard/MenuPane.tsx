@@ -33,7 +33,7 @@ interface LinkItemProps {
     { name: 'Plans', icon: FiCalendar, href: "#" },
     { name: 'Suites', icon: FiBook, href: "#" },
   //   { name: 'Tests', icon: FiThumbsUp },
-    { name: 'Tasks', icon: FiList, href: "#" },
+    // { name: 'Tasks', icon: FiList, href: "#" },
   //   { name: 'Settings', icon: FiSettings },
   ];
   
