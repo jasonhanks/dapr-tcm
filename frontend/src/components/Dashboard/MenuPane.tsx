@@ -14,34 +14,45 @@ import {
     FiBook,
    
 } from 'react-icons/fi';
+
+import { useNavigate } from 'react-router-dom'
   
 import { ReactText } from 'react'
 import { IconType } from 'react-icons'
 
 
 interface LinkItemProps {
-    name: string;
-    icon: IconType;
+    name: string
+    icon: IconType
+    href: string
   }
   const LinkItems: Array<LinkItemProps> = [
-    { name: 'Home', icon: FiHome },
-    { name: 'Recent', icon: FiTrendingUp },
-    { name: 'Favorites', icon: FiStar },
-    { name: 'Plans', icon: FiCalendar },
-    { name: 'Suites', icon: FiBook },
+    { name: 'Home', icon: FiHome, href: "/" },
+    { name: 'Recent', icon: FiTrendingUp, href: "#" },
+    { name: 'Favorites', icon: FiStar, href: "#" },
+    { name: 'Plans', icon: FiCalendar, href: "#" },
+    { name: 'Suites', icon: FiBook, href: "#" },
   //   { name: 'Tests', icon: FiThumbsUp },
-    { name: 'Tasks', icon: FiList },
+    { name: 'Tasks', icon: FiList, href: "#" },
   //   { name: 'Settings', icon: FiSettings },
   ];
   
 
   interface NavItemProps extends FlexProps {
-    icon: IconType;
-    children: ReactText;
+    icon: IconType
+    children: ReactText
+    href: string
   }
-  const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
-    return (
-      <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+  const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
+    const navigate = useNavigate()
+    const navigateTo = (href: string) => {
+      if (href === "#") return
+      console.log("Navigating to: "+ href)
+      navigate(href)
+    }
+  
+      return (
+      <Link onClick={() => navigateTo(href)} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
         <Flex
           align="center"
           p="4"
@@ -77,7 +88,7 @@ const MenuPane = () => {
     return (
         <div>
             {LinkItems.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
+                <NavItem key={link.name} icon={link.icon} href={link.href}>
                 {link.name}
                 </NavItem>
             ))}

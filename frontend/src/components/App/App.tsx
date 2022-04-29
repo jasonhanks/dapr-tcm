@@ -5,14 +5,16 @@ import {
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import theme from '../../theme'
-import Dashboard from '../Dashboard/Dashboard'
+import Home from '../Dashboard/Home'
 import Login from '../Account/Login'
 import Signup from '../Account/Signup'
 import AccountSettings from '../Account/Settings'
 
 import {userContext} from './context'
 
-
+import CreateProject from "../Project/Create"
+import Projects from "../Project/Projects"
+import ViewProject from "../Project/ViewProject"
 
 
 const App = () => {
@@ -30,7 +32,6 @@ const App = () => {
       }}>
 
         <ChakraProvider theme={theme}>
-          <div className="wrapper">
           {user == null && signup == true &&
             <Signup setUser={setUser} />
           }
@@ -38,15 +39,17 @@ const App = () => {
             <Login setUser={setUser} />
           }
 
-            { user != null &&
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/account/settings" element={<AccountSettings />} />
-                </Routes>
-              </BrowserRouter>
-            }
-            </div>    
+          { user != null &&
+            <BrowserRouter>
+              <Routes>
+                <Route index element={<Home />} />
+                <Route path="/account/settings" element={<AccountSettings />} />
+                <Route path="/projects" element={<Projects />}  />
+                <Route path="/projects/:id" element={<ViewProject />} />
+                <Route path="/projects/new" element={<CreateProject />} />
+              </Routes>
+            </BrowserRouter>
+          }
         </ChakraProvider>
       </userContext.Provider>
       
