@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const dataSchema = new mongoose.Schema({
+export const PlanSchema = new mongoose.Schema({
     projectId: {type: mongoose.Schema.Types.ObjectId, ref: 'Project'},
 
     name: {
@@ -8,13 +8,17 @@ const dataSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        required: true,
+        required: false,
         type: String
     },
     content: {
-        required: true,
+        required: false,
         type: String
+    },
+    tags: {
+        requried: true,
+        type: [String]
     }
 })
 
-module.exports = mongoose.model('plans', dataSchema)
+module.exports = mongoose.model('plans', PlanSchema)

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const SuiteSchema = new mongoose.Schema({
+const TestCaseSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String
@@ -19,4 +19,4 @@ const SuiteSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('suites', SuiteSchema)
+module.exports = mongoose.model('test_cases', TestCaseSchema)

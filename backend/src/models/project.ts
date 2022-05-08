@@ -6,12 +6,20 @@ const dataSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        required: true,
+        required: false,
         type: String
     },
     content: {
-        required: true,
+        required: false,
         type: String
+    },
+    versions: {
+        required: true,
+        type: [String]
+    },
+    tags: {
+        requried: true,
+        type: [String]
     }
 })
 
