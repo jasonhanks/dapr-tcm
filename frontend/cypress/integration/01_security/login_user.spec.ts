@@ -28,6 +28,18 @@ describe('Validate Login form behavior', () => {
     })
 
 
+    it('should show no errors when properly filled out', () => {
+      cy.get('#username').click()
+      cy.get('#username').type('valid-user@gmail.com')
+      cy.get('#password').click()
+      cy.get('#password').type('asdfasdf')
+      cy.get('#field-1-helptext').should("not.exist")
+      cy.get('#field-2-helptext').should("have.text", "Never reuse or share your passwords with anyone.")
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+    })
+
+
   })
 
 
