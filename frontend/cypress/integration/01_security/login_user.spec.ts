@@ -94,8 +94,18 @@ describe('Validate Login form behavior', () => {
       cy.contains('p', 'DAPR TCM')
       cy.contains('p', 'Home')
 
-      // Make sure the Projects drop down is populated
       cy.contains('select', 'Default Project')
+      cy.get('.chakra-select').should('be.enabled')
+      cy.get('#menu-button-19').should('have.class', 'chakra-button')
+
+      // Open the User Menu and validate it
+      cy.get('#menu-button-19').click()
+      cy.get('#menu-list-19 > :nth-child(3) > :nth-child(1) > :nth-child(1)').should('have.text', 'Valid User')
+      cy.get(':nth-child(3) > :nth-child(1) > :nth-child(2)').should('have.text', 'valid-user@gmail.com')
+      cy.get('#menu-list-19-menuitem-15').should('have.text', 'Account Settings')
+      cy.get('#menu-list-19-menuitem-16').should('have.text', 'Toggle Light / Dark Mode')
+      cy.get('#menu-list-19-menuitem-17').should('have.text', 'Sign Out')
+      cy.get('#menu-button-19').click() // Close the User Menu
     })
 
   })
