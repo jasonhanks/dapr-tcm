@@ -1,0 +1,14 @@
+
+.git
+.gitignore
+.cache
+
+
+
+.env
+**/.env
+
+node_modules/
+**/node_modules/
+
+frontend/dist/
