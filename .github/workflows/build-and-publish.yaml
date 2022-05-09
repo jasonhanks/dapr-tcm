@@ -7,7 +7,7 @@ on:
   # run it during pull request
   pull_request:
 
-defaults:
+jobs:
   # define job to build and publish docker image
   build-and-push-docker-image:
     name: Build Docker image and push to repositories
@@ -40,9 +40,7 @@ defaults:
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v3
         with:
-          # relative path to the place where source code with Dockerfile is located
           context: .
-          # Note: tags has to be all lower-case
           tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
