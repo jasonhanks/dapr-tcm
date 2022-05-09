@@ -25,6 +25,7 @@ database.once('connected', async () => {
 app.use(bodyParser.json())
 
 // Setup the API routes
+app.use('/api/projects', require('./api/projects'))
 app.use('/api/users', require('./api/users'))
  
 
