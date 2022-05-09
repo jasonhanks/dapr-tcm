@@ -1,54 +1,64 @@
-// invalid_user.spec.js created with Cypress
-//
-// Start writing your Cypress tests below!
-// If you're unfamiliar with how Cypress works,
-// check out the link below and learn how to write your first test:
-// https://on.cypress.io/writing-first-test
 
 describe('Validate Login form behavior', () => {
 
   beforeEach(() => {
     cy.visit('http://localhost:3000/')
-  })
-
-  it('should show form errors by default', () => {
-    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' })
-    cy.get('#login').should('be.visible')
-    cy.get('#field-1-helptext').should("be.visible").and("have.text", "Email address is required as your login.")
-    cy.get('#field-2-feedback').should("be.visible").and("have.text", "Enter a valid password.")
+    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' }).as('invalidLogin')
   })
 
 
-  it('should show error when Submitting an empty username', () => {
-    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' })
-    cy.get('#password').click()
-    cy.get('#password').type('asdfasdf')
-    cy.get('#login').click()
-    cy.get('#errors').should("be.visible").and("have.text", "Invalid username or password")
+  context('Client side form validations', () => {
+
+
+    it('should show form errors by default', () => {
+      cy.get('#login').should('be.visible')
+      cy.get('#field-1-helptext').should("have.text", "Email address is required as your login.")
+      cy.get('#field-2-feedback').should("have.text", "Enter a valid password.")
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+    })
+
+
+    it('should change Password help text when filled out', () => {
+      cy.get('#password').click()
+      cy.get('#password').type('asdfasdf')
+      cy.get('#field-2-helptext').should("have.text", "Never reuse or share your passwords with anyone.")
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+    })
+
+
   })
 
 
-  it('should show error when Submitting an empty password', () => {
-    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' })
-    cy.get('#username').click()
-    cy.get('#username').type('invalid-user')
-    cy.get('#login').click()
-    cy.get('#errors').should("be.visible").and("have.text", "Invalid username or password")
-  })
+  context('API login validations', () => {
 
 
-  it('should change Password help text when filled out', () => {
-    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' })
-    cy.get('#password').click()
-    cy.get('#password').type('asdfasdf')
-    cy.get('#field-2-helptext').should("be.visible").and("have.text", "Never reuse or share your passwords with anyone.")
-    cy.get('#login').click()
-  })
+    it('should show error when Submitting an empty username', () => {
+      cy.get('#password').click()
+      cy.get('#password').type('asdfasdf')
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+      cy.get('#errors').should("have.text", "Invalid username or password")
+    })
+  
+  
+    it('should show error when Submitting an empty password', () => {
+      cy.get('#username').click()
+      cy.get('#username').type('invalid-user')
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+      cy.get('#errors').should("have.text", "Invalid username or password")
+    })
+  
 
-  it('should show error when Submitting an empty form', () => {
-    cy.intercept('POST', '/api/users/login', { fixture: 'api/users/login-invalid.json' })
-    cy.get('#login').click()
-    cy.get('#errors').should("be.visible").and("have.text", "Invalid username or password")
+    it('should show error when Submitting an empty form', () => {
+      cy.get('#login').click()
+      cy.wait('@invalidLogin')
+      cy.get('#errors').should("have.text", "Invalid username or password")
+    })
+  
+
   })
 
 })
