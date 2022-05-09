@@ -1,0 +1,13 @@
+[
+    {
+        "_id": "62786c8c1199b9b626ae06a8",
+        "name": "Default Project",
+        "description": "The default sample project that exist for new instances automatically.",
+        "content": "This project includes working configuration and sample data entries.",
+        "versions": [
+            "v1.0.0"
+        ],
+        "tags": [],
+        "__v": 0
+    }
+]

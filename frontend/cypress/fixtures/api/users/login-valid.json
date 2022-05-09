@@ -1,0 +1,11 @@
+{
+    "user":{
+        "_id":          "6278864da266d8ac65c418fc",
+        "username":     "valid-user@gmail.com",
+        "full_name":    "Valid User",
+        "initials":     "VU",
+        "password":     "$2b$10$iJB5Wf7lOoYqDWy/TYdPWONTtub0IS1wqlLII4HdL12z5tsCyULJm",
+        "is_admin":     true,
+        "__v":          0
+    }
+}
