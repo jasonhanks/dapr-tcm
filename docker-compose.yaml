@@ -28,6 +28,7 @@ services:
 
   trac-tcm:
     build: .
+    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
     container_name: trac-tcm
     restart: unless-stopped
     depends_on: 

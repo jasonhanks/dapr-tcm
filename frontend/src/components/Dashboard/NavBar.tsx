@@ -3,7 +3,6 @@ import {
     Flex,
     FlexProps,
     HStack,
-    Select,
     Text,
     useColorModeValue,
 } from "@chakra-ui/react"
@@ -14,13 +13,13 @@ import NavMenu from './NavMenu';
 import Notifications from './Notifications'
 import Tasks from "./Tasks"
 import AccountMenu from "../Account/AccountMenu"
+import NavBarProjectSelect from "./NavBarProjectSelect"
 
 interface NavBarProps extends FlexProps {
 }
   
   
 const NavBar = ({ ...rest }: NavBarProps) => {
-  const navigate = useNavigate()
   return (
     <Flex
       px={{ base: 4, md: 4 }}
@@ -36,10 +35,7 @@ const NavBar = ({ ...rest }: NavBarProps) => {
         <NavMenu />
   
         <Text fontSize={16} fontWeight={600}>DAPR TCM</Text>
-        <Select variant='filled' display="inline-block" width="initial" onChange={(e) => navigate("/projects/"+ e.target.value, { replace: true })}>
-          <option value="1">Default Project</option>
-          <option value="2">Sample Project</option>
-        </Select>
+        <NavBarProjectSelect ></NavBarProjectSelect>
 
         <ButtonGroup variant="link" size="md">
           <Tasks />
