@@ -83,7 +83,7 @@ describe('Validate Login form behavior', () => {
       cy.wait(['@validLogin', '@defaultProject'])
 
       // Make sure we are logged in successfully
-      cy.contains('p', 'DAPR TCM')
+      cy.contains('p', 'TRAC TCM')
       cy.contains('p', 'Home')
 
       cy.contains('select', 'Default Project')
