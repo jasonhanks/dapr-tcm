@@ -34,7 +34,7 @@ const NavBar = ({ ...rest }: NavBarProps) => {
       <HStack spacing={{ base: '0', md: '4' }}>
         <NavMenu />
   
-        <Text fontSize={16} fontWeight={600}>DAPR TCM</Text>
+        <Text fontSize={16} fontWeight={600}>TRAC TCM</Text>
         <NavBarProjectSelect ></NavBarProjectSelect>
 
         <ButtonGroup variant="link" size="md">
