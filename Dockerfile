@@ -17,7 +17,7 @@ RUN cd /app/backend && npm install
 
 # Install the packages for the frontend
 COPY frontend/package*json /app/frontend/
-RUN cd /app/frontend && npm install
+RUN cd /app/frontend && npm install && npx playwright install
 
 
 # Copy the project source into the container
