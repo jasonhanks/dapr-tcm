@@ -1,0 +1,13 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  test:
+    build: ..
+    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    container_name: trac-tcm-tests
+    entrypoint: "npm"
+    command: run-script test
+    working_dir: /app/frontend
+

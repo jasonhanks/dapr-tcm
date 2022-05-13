@@ -13,29 +13,19 @@ jobs:
     name: Build Docker image and push to repositories
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_FILE: .ci/docker-compose.yml
 
     # steps to perform in job
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # setup Docker buld action
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Build image and push to Docker Hub and GitHub Container Registry
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    - name: Build Docker container image
+      run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
     - name: Execute all of the tests
-      uses: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-      with:
-        entrypoint: npm
-        args: run-script test
-        workdir: /app/frontend
+      run: docker-compose run test
 
 
     - name: Login to GitHub Container Registry
@@ -45,10 +35,13 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Build image and push to Docker Hub and GitHub Container Registry
-      uses: docker/build-push-action@v3
-      with:
-        # context: .
-        tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-        # build on feature branches, push only on main branch
-        push: ${{ github.ref == 'refs/heads/main' }}
+    - name: Build Docker container image
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+
+    # - name: Build image and push to Docker Hub and GitHub Container Registry
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     # context: .
+    #     tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    #     # build on feature branches, push only on main branch
+    #     push: ${{ github.ref == 'refs/heads/main' }}
