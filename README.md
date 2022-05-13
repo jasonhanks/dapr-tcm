@@ -42,7 +42,6 @@ This tool is built using the following technologies:
 
 * TypeScript as the programming language (https://www.typescriptlang.org)
 * MongoDB for database storage (https://www.mongodb.com)
-* Data schema typing and object modeling using Mongoose (https://github.com/Automattic/mongoose)
 * API server using Node Express (https://github.com/expressjs/express)
 * React frontend components (https://github.com/facebook/react)
 * User interface components using Chakra UI (https://chakra-ui.com)
