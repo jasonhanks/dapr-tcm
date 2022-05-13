@@ -30,16 +30,12 @@ jobs:
         context: .
         tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
-    - name: Log the node version
+    - name: Execute all of the tests
       uses: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
       with:
         entrypoint: npm
-        command: run-script test
+        args: run-script test
         workdir: /app/frontend
-      # run: |
-      #   node -v
-      #   cd /app/frontend
-      #   npm run-script test
 
 
     - name: Login to GitHub Container Registry
