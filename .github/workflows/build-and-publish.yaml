@@ -31,7 +31,7 @@ jobs:
         tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
     - name: Log the node version
-      users: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+      uses: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
       # with:
         # command: ecosystem.tests.js
       run: |
