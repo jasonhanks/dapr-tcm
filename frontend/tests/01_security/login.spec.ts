@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-
 import validLogin from '../fixtures/api/users//login-valid.json'
 import defaultProject from '../fixtures/api/projects/default.json'
 
@@ -7,7 +6,7 @@ import defaultProject from '../fixtures/api/projects/default.json'
 test.describe('Login form', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/')
+    await page.goto('/')
 
     // Network intercept routes
     await page.route('**/api/users/login', async (route) => { await route.fulfill({ status: 401, body: '{}' })})
