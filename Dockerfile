@@ -11,12 +11,12 @@ RUN mkdir /app/backend && mkdir /app/frontend
 
 
 # Install the packages for the backend
-COPY backend/package*json /app/backend
+COPY backend/package*json /app/backend/
 RUN cd /app/backend && npm install
 
 
 # Install the packages for the frontend
-COPY frontend/package*json /app/frontend
+COPY frontend/package*json /app/frontend/
 RUN cd /app/frontend && npm install
 
 
