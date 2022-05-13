@@ -34,7 +34,7 @@ jobs:
       uses: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
       with:
         entrypoint: npm
-        command: ['run-script', 'test']
+        command: run-script test
         workdir: /app/frontend
       # run: |
       #   node -v
