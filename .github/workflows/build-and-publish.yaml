@@ -25,7 +25,9 @@ jobs:
       run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
     - name: Execute all of the tests
-      run: cd .ci && docker-compose run test & cd ..
+      run: |
+        cd .ci
+        docker-compose run test
 
 
     - name: Login to GitHub Container Registry
@@ -35,7 +37,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Build Docker container image
+    - name: Publish Docker container image
       run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
     # - name: Build image and push to Docker Hub and GitHub Container Registry

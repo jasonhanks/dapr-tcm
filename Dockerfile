@@ -1,11 +1,17 @@
-FROM node:18.1.0-bullseye-slim
+FROM mcr.microsoft.com/playwright:focal
+
 
 RUN mkdir /app
 WORKDIR /app
 
 
-# Install the pm2 wrapper
-RUN npm install -g pm2
+RUN apt update && apt -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_16.x -o /tmp/nodesource_setup.sh
+RUN bash /tmp/nodesource_setup.sh
+RUN apt -y install nodejs
+
+# Install the pm2 wrapper and the HTTP server for React frontend
+RUN npm install -g pm2 serve
 
 RUN mkdir /app/backend && mkdir /app/frontend
 
@@ -17,11 +23,16 @@ RUN cd /app/backend && npm install
 
 # Install the packages for the frontend
 COPY frontend/package*json /app/frontend/
-RUN cd /app/frontend && npm install && npx playwright install
+RUN cd /app/frontend && npm install 
+
+RUN npx playwright install && npx playwright install-deps 
 
 
 # Copy the project source into the container
 COPY . .
+
+
+RUN cd frontend && npm run build
 
 
 # Expose ports
