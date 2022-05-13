@@ -32,12 +32,14 @@ jobs:
 
     - name: Log the node version
       uses: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-      # with:
-        # command: ecosystem.tests.js
-      run: |
-        node -v
-        cd /app/frontend
-        npm run-script test
+      with:
+        entrypoint: npm
+        command: ['run-script', 'test']
+        workdir: /app/frontend
+      # run: |
+      #   node -v
+      #   cd /app/frontend
+      #   npm run-script test
 
 
     - name: Login to GitHub Container Registry
