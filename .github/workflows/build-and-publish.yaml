@@ -30,24 +30,16 @@ jobs:
         context: .
         tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
-  execute_tests:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-    name: Execute all project tests
-    steps:
     - name: Log the node version
+      users: docker://ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+      # with:
+        # command: ecosystem.tests.js
       run: |
         node -v
-        cd frontend
+        cd /app/frontend
         npm run-script test
 
 
-  publish-docker-image:
-    name: Build Docker image and push to repositories
-    # run only when code is compiling and tests are passing
-    runs-on: ubuntu-latest
-    steps:
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
