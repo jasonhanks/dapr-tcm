@@ -3,6 +3,12 @@ import validLogin from '../fixtures/api/users//login-valid.json'
 import defaultProject from '../fixtures/api/projects/default.json'
 
 
+const TEXT_EMAIL_REQD     = 'Email address is required as your login.'
+const TEXT_INVALID_LOGIN  = 'Invalid username or password'
+const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'
+const TEXT_VALID_PASSWD   = 'Enter a valid password.'
+
+
 test.describe('Login form', () => {
 
   test.beforeEach(async ({ page }) => {
@@ -10,7 +16,7 @@ test.describe('Login form', () => {
 
     // Network intercept routes
     await page.route('**/api/users/login', async (route) => { await route.fulfill({ status: 401, body: '{}' })})
-    await page.route('**/api/projects', (route) => { route.fulfill({ status: 200, body: JSON.stringify(defaultProject) }) })
+    await page.route('**/api/projects', async (route) => { await route.fulfill({ status: 200, body: JSON.stringify(defaultProject) }) })
   })
 
 
@@ -18,24 +24,24 @@ test.describe('Login form', () => {
 
     test('show errors by default', async ({ page }) => {
       await expect(page.locator('#login')).toBeVisible()
-      await expect(page.locator('#field-1-helptext')).toHaveText("Email address is required as your login.")
-      await expect(page.locator('#field-2-feedback')).toHaveText("Enter a valid password.")
+      await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
+      await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
     })
 
     test('changes Password help text when filled out', async ({ page }) => {
-      await expect(page.locator('#field-1-helptext')).toHaveText("Email address is required as your login.")
-      await expect(page.locator('#field-2-feedback')).toHaveText("Enter a valid password.")
+      await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
+      await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
       await page.fill('#password', 'asdfasdf')
-      await expect(page.locator('#field-2-helptext')).toHaveText("Never reuse or share your passwords with anyone.")
+      await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
     })
 
     test('show no errors when properly filled out', async ({ page }) => {
-      await expect(page.locator('#field-1-helptext')).toHaveText("Email address is required as your login.")
-      await expect(page.locator('#field-2-feedback')).toHaveText("Enter a valid password.")
+      await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
+      await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
       await expect(page.locator("#field-1-helptext")).toHaveCount(0)
-      await expect(page.locator('#field-2-helptext')).toHaveText("Never reuse or share your passwords with anyone.")
+      await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
     })
 
   })
@@ -46,7 +52,7 @@ test.describe('Login form', () => {
     test('API - when using an empty username', async ({ page }) => {
       await page.fill('#password', 'asdfasdf')
       await page.click('#login')
-      await expect(page.locator('#errors')).toHaveText("Invalid username or password")
+      await expect(page.locator('#errors')).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using username is not an email address', async ({ page }) => {
@@ -54,26 +60,26 @@ test.describe('Login form', () => {
       await page.fill('#username', 'not-an-email-address')
       await page.fill('#password', 'asdfasdf')
       await page.click("#login")
-      await expect(page.locator("#errors")).toHaveText("Invalid username or password")
+      await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using an empty password', async ({ page }) => {
       await page.fill('#username', 'valid-email@gmail.com')
       await page.click("#login")
-      await expect(page.locator("#errors")).toHaveText("Invalid username or password")
+      await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when Submitting an empty form', async ({ page }) => {
       await page.click("#login")
-      await expect(page.locator("#errors")).toHaveText("Invalid username or password")
+      await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
 
   })
 
 
-  test.describe('API - successful login validations', async () => {
+  test.describe('Successful login validations', async () => {
 
-    test('navigates the user to the Dashboard with valid credentials', async ({ page }) => {
+    test('API - navigates the user to the Dashboard with valid credentials', async ({ page }) => {
       // Network intercept route for valid login
       await page.route('**/api/users/login', async (route) => {
         await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(validLogin) })
@@ -83,7 +89,7 @@ test.describe('Login form', () => {
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
       await expect(page.locator('#field-1-helptext')).toHaveCount(0)
-      await expect(page.locator('#field-2-helptext')).toHaveText("Never reuse or share your passwords with anyone.")
+      await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
       await page.click("#login")
 
       // Make sure we are logged in successfully
