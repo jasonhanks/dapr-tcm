@@ -32,6 +32,8 @@ RUN npx playwright install && npx playwright install-deps
 COPY . .
 
 
+# Compile all project TypsScript code into JavaScript ready to serve
+RUN cd backend && npm run build
 RUN cd frontend && npm run build
 
 
