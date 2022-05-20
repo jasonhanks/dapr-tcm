@@ -25,12 +25,8 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-      on:
-        push:
-          branches: [main]
+      if: github.ref == 'refs/heads/master'
     
     - name: Publish Docker container image to the GitHub Container Registry
       run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-      on:
-        push:
-          branches: [main]
+      if: github.ref == 'refs/heads/master'
