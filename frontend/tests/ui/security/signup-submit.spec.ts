@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test'
 
-import defaultProject from '../../fixtures/api/projects/default.json'
-
 import invalidSignupAll from '../../fixtures/api/users/signup-invalid-all.json'
 import invalidSignupEmail from '../../fixtures/api/users/signup-invalid-email.json'
 import invalidSignupInitials from '../../fixtures/api/users/signup-invalid-initials.json'

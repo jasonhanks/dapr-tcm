@@ -4,9 +4,7 @@ import defaultProject from '../../fixtures/api/projects/default.json'
 
 
 const TEXT_EMAIL_REQD     = 'Email address is required as your login.'
-const TEXT_INVALID_LOGIN  = 'Invalid username or password'
 const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'
-const TEXT_VALID_PASSWD   = 'Enter a valid password.'
 
 
 test.describe.configure({ mode: 'parallel' })
