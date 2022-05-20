@@ -57,11 +57,7 @@ export default function Login(args: any) {
             <FormControl isRequired isInvalid={username.length < 5}>
                 <FormLabel htmlFor='username'>Email address</FormLabel>
                 <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                {username === '' ? (
-                        <FormHelperText>Email address is required as your login.</FormHelperText>
-                    ) : (
-                        <FormErrorMessage>Enter your login email address.</FormErrorMessage>
-                )}
+                <FormHelperText>Email address is required as your login.</FormHelperText>
             </FormControl>
             <br/>
             <FormControl isRequired isInvalid={!validatePassword()}>
@@ -77,25 +73,16 @@ export default function Login(args: any) {
             <FormControl>
                 <Input id='login' type='Submit' onClick={handleSubmit} />
                 <FormHelperText>Login to your account.</FormHelperText>
+                {errors.length > 0 && <FormErrorMessage>Enter your login email address.</FormErrorMessage>}
             </FormControl>
             </form>
 
             <br/>
-            <FormControl>
-                {() => errors.length > 0 &&
-                    <FormErrorMessage>Enter your login email address.</FormErrorMessage>
-                }
-            </FormControl>
-
             <div id="errors" className="errors">{ errors }</div>
             <br/>
             <div>
                 <userContext.Consumer>
-                    {({toggleSignup}) => {
-                    return (
-                        <button onClick={(e) =>  toggleSignup() }>New user? Click here to Sign Up!</button>
-                        )
-                    }}
+                    {({toggleSignup}) => <button onClick={() =>  toggleSignup() }>New user? Click here to Sign Up!</button>}
                 </userContext.Consumer>
 
                 <br/>

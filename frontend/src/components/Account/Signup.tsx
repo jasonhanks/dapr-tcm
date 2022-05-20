@@ -105,11 +105,7 @@ export default function Signup(args: any) {
 
             <br/>            
             <userContext.Consumer>
-                {({signup, toggleSignup}) => {
-                  return (
-                    <button onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</button>
-                    )
-                }}
+                {({toggleSignup}) => <button onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</button>}
             </userContext.Consumer>
 
             <br/>
