@@ -23,7 +23,7 @@ test.describe('Login form', () => {
   test.describe('Form validations', () => {
 
     test('show errors by default', async ({ page }) => {
-      await expect(page.locator('#login')).toBeVisible()
+      await expect(page.locator('#submit')).toBeVisible()
       await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
     })
@@ -51,26 +51,26 @@ test.describe('Login form', () => {
 
     test('API - when using an empty username', async ({ page }) => {
       await page.fill('#password', 'asdfasdf')
-      await page.click('#login')
+      await page.click('#submit')
       await expect(page.locator('#errors')).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using username is not an email address', async ({ page }) => {
-      await expect(page.locator('#login')).toBeVisible()
+      await expect(page.locator('#submit')).toBeVisible()
       await page.fill('#username', 'not-an-email-address')
       await page.fill('#password', 'asdfasdf')
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using an empty password', async ({ page }) => {
       await page.fill('#username', 'valid-email@gmail.com')
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when Submitting an empty form', async ({ page }) => {
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
 
@@ -90,7 +90,7 @@ test.describe('Login form', () => {
       await page.fill('#password', 'asdfasdf')
       await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
-      await page.click("#login")
+      await page.click("#submit")
 
       // Make sure we are logged in successfully
       await expect(page.locator("#root > div:nth-child(2) > div > div > p")).toHaveText("TRAC TCM")

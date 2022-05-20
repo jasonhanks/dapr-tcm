@@ -71,7 +71,7 @@ export default function Login(args: any) {
             </FormControl>
             <br/>
             <FormControl>
-                <Input id='login' type='Submit' onClick={handleSubmit} />
+                <Input id='submit' type='Submit' onClick={handleSubmit} />
                 <FormHelperText>Login to your account.</FormHelperText>
                 {errors.length > 0 && <FormErrorMessage>Enter your login email address.</FormErrorMessage>}
             </FormControl>

@@ -96,7 +96,7 @@ export default function Signup(args: any) {
                 </FormControl>
                 <br/>
                 <FormControl>
-                    <Input id='login' type='Submit' onClick={handleSubmit} />
+                    <Input id='submit' type='Submit' onClick={handleSubmit} />
                     <FormHelperText>Create your new account.</FormHelperText>
                 </FormControl>
             </form>
