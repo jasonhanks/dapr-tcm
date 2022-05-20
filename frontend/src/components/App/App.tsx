@@ -31,10 +31,10 @@ const App = () => {
       }}>
 
         <ChakraProvider theme={theme}>
-          {user == null && signup == true && <Signup setUser={setUser} /> }
-          {user == null && signup == false && <Login setUser={setUser} /> }
+          {user === null && signup === true && <Signup setUser={setUser} /> }
+          {user === null && signup === false && <Login setUser={setUser} /> }
       
-          { user != null &&
+          { user !== null &&
             <BrowserRouter>
               <Routes>
                 <Route index element={<Home />} />

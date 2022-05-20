@@ -7,8 +7,6 @@ import {
     useColorModeValue,
 } from "@chakra-ui/react"
 
-import { useNavigate } from 'react-router-dom'
-
 import NavMenu from './NavMenu';
 import Notifications from './Notifications'
 import Tasks from "./Tasks"

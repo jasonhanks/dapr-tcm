@@ -93,7 +93,7 @@ export default function Login(args: any) {
                 <userContext.Consumer>
                     {({toggleSignup}) => {
                     return (
-                        <a href="#" onClick={(e) =>  toggleSignup() }>New user? Click here to Sign Up!</a>
+                        <button onClick={(e) =>  toggleSignup() }>New user? Click here to Sign Up!</button>
                         )
                     }}
                 </userContext.Consumer>

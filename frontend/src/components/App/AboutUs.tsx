@@ -1,6 +1,5 @@
 
 import { 
-    Code,
     Link,
     Text,
  } from "@chakra-ui/react"
