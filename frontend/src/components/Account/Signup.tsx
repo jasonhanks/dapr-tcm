@@ -8,6 +8,7 @@ import {
     Text
 } from '@chakra-ui/react'
 
+import '../App/App.css'
 import './Signup.css'
 import submitJSON from '../../utils'
 
@@ -43,7 +44,10 @@ export default function Signup(args: any) {
         } else {
             // Validation errors
             console.log("User "+ username +" was not created")
-            setErrors(results.errors)
+            let msg: string = ""
+            results.errors.forEach((e: any) => msg += e.msg +"\n")
+            console.log(msg)
+            setErrors(msg)
         }
     }
  
@@ -62,13 +66,9 @@ export default function Signup(args: any) {
                 <FormControl isRequired isInvalid={username.length < 5}>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
                     <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                    {username === '' ? (
-                        <FormHelperText>
+                    <FormHelperText>
                         Enter the email you'd like to use as your login.
-                        </FormHelperText>
-                    ) : (
-                        <FormErrorMessage>Email is required in order to create your account.</FormErrorMessage>
-                    )}
+                    </FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl isRequired>
@@ -101,11 +101,12 @@ export default function Signup(args: any) {
                 </FormControl>
             </form>
 
-            <div id="errors">{ errors }</div>
+            <br />
+            <span className="errors" id="errors">{ errors }</span>
 
             <br/>            
             <userContext.Consumer>
-                {({toggleSignup}) => <button onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</button>}
+                {({toggleSignup}) => <button onClick={() => toggleSignup() }>Existing user? Login to existing account!</button>}
             </userContext.Consumer>
 
             <br/>
