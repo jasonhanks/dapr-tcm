@@ -30,7 +30,7 @@ jobs:
   publish-docker-image:
     name: Build Docker image
     runs-on: ubuntu-latest
-    need: build-and-test
+    needs: build-and-test
     if: github.ref == 'refs/heads/main'
     steps:
     - uses: actions/download-artifact@master
