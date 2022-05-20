@@ -9,8 +9,6 @@ import invalidSignupPassword from '../../fixtures/api/users/signup-invalid-passw
 import invalidSignupPasswordConfirm from '../../fixtures/api/users/signup-invalid-password-confirm.json'
 import invalidSignupPassworsMismatch from '../../fixtures/api/users/signup-invalid-password-mismatch.json'
 
-import validSignup from '../../fixtures/api/users/signup-valid.json'
-
 
 test.describe('Signup form', () => {
 
@@ -22,19 +20,6 @@ test.describe('Signup form', () => {
     })
   
     
-    test.describe('Form validations', () => {
-  
-      test('show help text by default', async ({ page }) => {
-        await expect(page.locator('#submit')).toBeVisible()
-        await expect(page.locator('#field-1-helptext')).toHaveText("Enter the email you'd like to use as your login.")
-        await expect(page.locator('#field-2-helptext')).toHaveText("Enter your preferred full name to use.")
-        await expect(page.locator('#field-3-helptext')).toHaveText("Enter your preferred short name / initials to use.")
-        await expect(page.locator('#field-4-helptext')).toHaveText('Never reuse or share your passwords.')
-        await expect(page.locator('#field-5-helptext')).toHaveText("Please confirm your new password.")
-      })
-      
-    })
-
     test.describe('Form submission valdations',() => {
 
         test('shows an error message for all required inputs with nothing filled out', async ({ page }) => {
@@ -160,21 +145,4 @@ test.describe('Signup form', () => {
 
     })
 
-    test('Validate successful Signup', async ({ page }) => {
-      await page.route('**/api/projects', async (route) => { await route.fulfill({ status: 200, body: JSON.stringify(defaultProject) }) })
-      await page.route('**/api/users/', async (route) => { await route.fulfill({ status: 200, body: JSON.stringify(validSignup) })})
-      await page.fill('#username', 'valid-user@example.com')
-      await page.fill('#initials', 'VU')
-      await page.fill('#full_name', 'Valid User')
-      await page.fill('#password', 'asdfasdf')
-      await page.fill('#password_confirm', 'asdfasdf')
-      await page.locator('#submit').click()
-
-      // Make sure we are logged in successfully
-      await expect(page.locator("#root > div:nth-child(2) > div > div > p")).toHaveText("TRAC TCM")
-      await expect(page.locator("#root > div:nth-child(2) > p")).toHaveText("Home")
-      await expect(page.locator('select.chakra-select')).toBeEnabled()
-      await expect(page.locator('select.chakra-select')).toHaveText('Default Project')
-    })
-  
 })  
