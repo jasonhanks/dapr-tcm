@@ -16,14 +16,14 @@ jobs:
     # - name: Build Docker container image from the source code
     #   run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: false
-          tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: false
+        tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
     - name: Execute all of the tests within the project
       run: cd .ci && docker-compose run test
@@ -45,11 +45,11 @@ jobs:
     # - name: Publish Docker container image to the GitHub Container Registry
     #   run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
