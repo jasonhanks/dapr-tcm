@@ -40,7 +40,7 @@ test.describe('Login form', () => {
       await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
-      await expect(page.locator("#field-1-helptext")).toHaveCount(0)
+      await expect(page.locator("#field-1-helptext")).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
     })
 
@@ -88,7 +88,7 @@ test.describe('Login form', () => {
       // Login the User with "valid" credentials
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
-      await expect(page.locator('#field-1-helptext')).toHaveCount(0)
+      await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
       await page.click("#login")
 
