@@ -1,0 +1,18 @@
+name: Build and Publish
+
+on:
+  pull_request:
+
+jobs:
+  build-docker-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the project source code
+      uses: actions/checkout@v2
+
+    - name: Build Docker container image from the source code
+      run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
+
+    - name: Execute all of the tests within the project
+      run: cd .ci && docker-compose run test
