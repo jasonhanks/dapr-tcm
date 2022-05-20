@@ -1,16 +1,12 @@
 import {
-    Avatar,
-    Button,
     Center,
     Flex,
     IconButton,
     Menu,
     MenuButton,
     MenuDivider,
-    MenuItem,
     MenuList,
     Text,
-    useColorMode
 } from "@chakra-ui/react"
 import { FiList } from "react-icons/fi";
 
@@ -18,7 +14,6 @@ import {userContext} from '../App/context'
 
 
 const Tasks = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <userContext.Consumer>
             {({logoutUser, user}) => {

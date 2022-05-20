@@ -89,7 +89,7 @@ export default function Signup(args: any) {
                     <FormHelperText>Never reuse or share your passwords.</FormHelperText>
                 </FormControl>
                 <br/>
-                <FormControl isRequired isInvalid={validatePassword() && (password != password_confirm)}>
+                <FormControl isRequired isInvalid={validatePassword() && (password !== password_confirm)}>
                     <FormLabel htmlFor='password_confirm'>Confirm Password</FormLabel>
                     <Input id='password_confirm' name="password_confirm" type='password' onChange={(e) => setPasswordConfirm(e.target.value)} />
                     <FormHelperText>Please confirm your new password.</FormHelperText>
@@ -107,7 +107,7 @@ export default function Signup(args: any) {
             <userContext.Consumer>
                 {({signup, toggleSignup}) => {
                   return (
-                    <a href="#" onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</a>
+                    <button onClick={(e) =>  toggleSignup() }>Existing user? Login to existing account!</button>
                     )
                 }}
             </userContext.Consumer>

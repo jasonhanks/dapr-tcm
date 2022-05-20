@@ -16,7 +16,7 @@ const Disclaimer = () => {
       if (disclaimer)
         onToggle()
         setDisclaimer(false)
-    })
+    }, [disclaimer, onToggle])
   
     return (
         <Slide direction='bottom' in={isOpen} style={{ zIndex: 10 }}>

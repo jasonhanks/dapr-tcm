@@ -15,7 +15,7 @@ import {userContext} from '../App/context'
 
 
 const AccountMenu = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { toggleColorMode } = useColorMode();
     return (
         <userContext.Consumer>
             {({logoutUser, user}) => {

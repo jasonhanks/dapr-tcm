@@ -5,10 +5,8 @@ import {
     Menu,
     MenuButton,
     MenuDivider,
-    MenuItem,
     MenuList,
     Text,
-    useColorMode
 } from "@chakra-ui/react"
 import { FiBell } from "react-icons/fi";
 
@@ -16,7 +14,6 @@ import {userContext} from '../App/context'
 
 
 const Notifications = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <userContext.Consumer>
             {({logoutUser, user}) => {
