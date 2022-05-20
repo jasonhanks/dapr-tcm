@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "value": "",
+      "msg": "Initials must be between 2 and 5 chars long",
+      "param": "initials",
+      "location": "body"
+    }
+  ]
+}

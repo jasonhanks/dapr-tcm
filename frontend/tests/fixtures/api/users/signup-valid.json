@@ -1,0 +1,11 @@
+{
+  "user": {
+    "username": "valid-user@example.com",
+    "full_name": "Valid User",
+    "initials": "VU",
+    "password": "$2b$10$JZ235WaBX/sGMRZNotl6curnjyan8sqyyhP1TeuAuYpQWtdOeMdvm",
+    "is_admin": false,
+    "_id": "6287d00b200d71139a57ad18",
+    "__v": 0
+  }
+}

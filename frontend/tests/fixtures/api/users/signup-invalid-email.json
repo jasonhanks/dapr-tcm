@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "value": "",
+      "msg": "Email must be a valid working email address",
+      "param": "username",
+      "location": "body"
+    }
+  ]
+}
