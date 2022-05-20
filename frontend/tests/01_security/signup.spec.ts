@@ -16,6 +16,7 @@ test.describe('Signup form', () => {
 
     test.beforeEach(async ({ page }) => {
       await page.goto('/')  // Navigate to the Signup screen
+      await page.click("text=/Accept/") //Close the disclaimer for Firefox
       await page.click("text=/Click here to Sign Up/")
       await expect(page.locator('text=Signup for Account')).toBeVisible()
     })

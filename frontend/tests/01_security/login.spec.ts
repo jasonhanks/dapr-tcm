@@ -13,6 +13,7 @@ test.describe('Login form', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
+    await page.click("text=/Accept/") //Close the disclaimer for Firefox
 
     // Network intercept routes
     await page.route('**/api/users/login', async (route) => { await route.fulfill({ status: 401, body: '{}' })})
