@@ -24,7 +24,7 @@ test.describe('Signup form', () => {
     test.describe('Form validations', () => {
   
       test('show help text by default', async ({ page }) => {
-        await expect(page.locator('#login')).toBeVisible()
+        await expect(page.locator('#submit')).toBeVisible()
         await expect(page.locator('#field-1-helptext')).toHaveText("Enter the email you'd like to use as your login.")
         await expect(page.locator('#field-2-helptext')).toHaveText("Enter your preferred full name to use.")
         await expect(page.locator('#field-3-helptext')).toHaveText("Enter your preferred short name / initials to use.")
@@ -45,7 +45,7 @@ test.describe('Signup form', () => {
                 Password confirmations must be at least 8 chars long\n\
                 Full name must at least 4 chars long\n\
             "
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText(errorMessage)
         })
 
@@ -60,17 +60,17 @@ test.describe('Signup form', () => {
 
             // Check for blank values
             await page.fill('#username', '')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Email must be a valid working email address")
 
             // Make sure it requires a domain
             await page.fill('#username', 'invald-email-address')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Email must be a valid working email address")
 
             // Make sure it's a valid formatted domain
             await page.fill('#username', 'invald-email-address@invalid')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Email must be a valid working email address")
         })
 
@@ -86,17 +86,17 @@ test.describe('Signup form', () => {
 
             // Blanks are not allowed
             await page.fill('#initials', '')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Initials must be between 2 and 5 chars long")
 
             // Must be at least 2 characters long
             await page.fill('#initials', 'I')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Initials must be between 2 and 5 chars long")
 
             // Must be at most 5 characters long
             await page.fill('#initials', 'ABCDEF')
-            await page.locator('#login').click()
+            await page.locator('#submit').click()
             await expect(page.locator('#errors')).toHaveText("Initials must be between 2 and 5 chars long")
         })
 
@@ -111,14 +111,14 @@ test.describe('Signup form', () => {
           // Do not allow blanks
           await page.route('**/api/users/', async (route) => { await route.fulfill({ status: 403, body: JSON.stringify(invalidSignupPassword) })})
           await page.fill('#password', invalidSignupPassword.errors[1].value)
-          await page.locator('#login').click()
+          await page.locator('#submit').click()
           await expect(page.locator('#errors')).toHaveText("Passwords must be at least 8 chars long\nPassword and confirmation password must match")
 
           // Password is too short (boundary)
           invalidSignupPassword.errors[1].value = "1234567"
           await page.route('**/api/users/', async (route) => { await route.fulfill({ status: 403, body: JSON.stringify(invalidSignupPassword) })})
           await page.fill('#password', invalidSignupPassword.errors[1].value)
-          await page.locator('#login').click()
+          await page.locator('#submit').click()
           await expect(page.locator('#errors')).toHaveText("Passwords must be at least 8 chars long\nPassword and confirmation password must match")
         })
 
@@ -132,14 +132,14 @@ test.describe('Signup form', () => {
 
           // Do not allow blanks
           await page.fill('#password_confirm', '')
-          await page.locator('#login').click()
+          await page.locator('#submit').click()
           await expect(page.locator('#errors')).toHaveText("Password confirmations must be at least 8 chars long\nPassword and confirmation password must match")
 
           // Password is too short (boundary)
           invalidSignupPasswordConfirm.errors[1].value = "1234567"
           await page.route('**/api/users/', async (route) => { await route.fulfill({ status: 403, body: JSON.stringify(invalidSignupPasswordConfirm) })})
           await page.fill('#password_confirm', invalidSignupPasswordConfirm.errors[1].value)
-          await page.locator('#login').click()
+          await page.locator('#submit').click()
           await expect(page.locator('#errors')).toHaveText("Password confirmations must be at least 8 chars long\nPassword and confirmation password must match")
         })
 
@@ -153,7 +153,7 @@ test.describe('Signup form', () => {
           // Correct lengths but match
           await page.route('**/api/users/', async (route) => { await route.fulfill({ status: 403, body: JSON.stringify(invalidSignupPassworsMismatch) })})
           await page.fill('#password_confirm', invalidSignupPassworsMismatch.errors[0].value)
-          await page.locator('#login').click()
+          await page.locator('#submit').click()
           await expect(page.locator('#errors')).toHaveText("Password and confirmation password must match")
         })
 
@@ -167,7 +167,7 @@ test.describe('Signup form', () => {
       await page.fill('#full_name', 'Valid User')
       await page.fill('#password', 'asdfasdf')
       await page.fill('#password_confirm', 'asdfasdf')
-      await page.locator('#login').click()
+      await page.locator('#submit').click()
 
       // Make sure we are logged in successfully
       await expect(page.locator("#root > div:nth-child(2) > div > div > p")).toHaveText("TRAC TCM")
