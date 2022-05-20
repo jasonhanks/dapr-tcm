@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import validLogin from '../fixtures/api/users//login-valid.json'
-import defaultProject from '../fixtures/api/projects/default.json'
+import validLogin from '../../fixtures/api/users/login-valid.json'
+import defaultProject from '../../fixtures/api/projects/default.json'
 
 
 const TEXT_EMAIL_REQD     = 'Email address is required as your login.'
@@ -13,6 +13,7 @@ test.describe('Login form', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
+    await page.click("text=/Accept/") //Close the disclaimer for Firefox
 
     // Network intercept routes
     await page.route('**/api/users/login', async (route) => { await route.fulfill({ status: 401, body: '{}' })})
@@ -23,7 +24,7 @@ test.describe('Login form', () => {
   test.describe('Form validations', () => {
 
     test('show errors by default', async ({ page }) => {
-      await expect(page.locator('#login')).toBeVisible()
+      await expect(page.locator('#submit')).toBeVisible()
       await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
     })
@@ -40,7 +41,7 @@ test.describe('Login form', () => {
       await expect(page.locator('#field-2-feedback')).toHaveText(TEXT_VALID_PASSWD)
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
-      await expect(page.locator("#field-1-helptext")).toHaveCount(0)
+      await expect(page.locator("#field-1-helptext")).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
     })
 
@@ -51,26 +52,26 @@ test.describe('Login form', () => {
 
     test('API - when using an empty username', async ({ page }) => {
       await page.fill('#password', 'asdfasdf')
-      await page.click('#login')
+      await page.click('#submit')
       await expect(page.locator('#errors')).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using username is not an email address', async ({ page }) => {
-      await expect(page.locator('#login')).toBeVisible()
+      await expect(page.locator('#submit')).toBeVisible()
       await page.fill('#username', 'not-an-email-address')
       await page.fill('#password', 'asdfasdf')
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when using an empty password', async ({ page }) => {
       await page.fill('#username', 'valid-email@gmail.com')
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
   
     test('API - when Submitting an empty form', async ({ page }) => {
-      await page.click("#login")
+      await page.click("#submit")
       await expect(page.locator("#errors")).toHaveText(TEXT_INVALID_LOGIN)
     })
 
@@ -88,9 +89,9 @@ test.describe('Login form', () => {
       // Login the User with "valid" credentials
       await page.fill('#username', 'valid-user@gmail.com')
       await page.fill('#password', 'asdfasdf')
-      await expect(page.locator('#field-1-helptext')).toHaveCount(0)
+      await expect(page.locator('#field-1-helptext')).toHaveText(TEXT_EMAIL_REQD)
       await expect(page.locator('#field-2-helptext')).toHaveText(TEXT_PASSWD_REUSE)
-      await page.click("#login")
+      await page.click("#submit")
 
       // Make sure we are logged in successfully
       await expect(page.locator("#root > div:nth-child(2) > div > div > p")).toHaveText("TRAC TCM")

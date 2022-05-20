@@ -1,0 +1,34 @@
+{
+  "errors": [
+    {
+      "value": "",
+      "msg": "Email must be a valid working email address",
+      "param": "username",
+      "location": "body"
+    },
+    {
+      "value": "",
+      "msg": "Initials must be between 2 and 5 chars long",
+      "param": "initials",
+      "location": "body"
+    },
+    {
+      "value": "",
+      "msg": "Passwords must be at least 8 chars long",
+      "param": "password",
+      "location": "body"
+    },
+    {
+      "value": "",
+      "msg": "Password confirmations must be at least 8 chars long",
+      "param": "password_confirm",
+      "location": "body"
+    },
+    {
+      "value": "",
+      "msg": "Full name must at least 4 chars long",
+      "param": "full_name",
+      "location": "body"
+    }
+  ]
+}

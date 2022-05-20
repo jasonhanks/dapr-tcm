@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express"
-import { body, validationResult  } from 'express-validator'
+import { body, check, validationResult  } from 'express-validator'
 
 
 // Model imports
@@ -54,11 +54,17 @@ router.post('/login',
 router.post('/',
 
     // Request parameter validations
-    body('username').isEmail(),
-    body('initials').isLength({ min: 2, max: 5 }),
-    body('password').isLength({ min: 8 }),
-    body('password_confirm').isLength({ min: 8 }),
-    body('full_name').isLength({ min: 4 }),
+    body('username').isEmail().withMessage('Email must be a valid working email address'),
+    body('initials').isLength({ min: 2, max: 5 }).withMessage('Initials must be between 2 and 5 chars long'),
+    check('password').isLength({ min: 8 }).withMessage('Passwords must be at least 8 chars long'),
+    check('password_confirm').isLength({ min: 8 }).withMessage('Password confirmations must be at least 8 chars long'),
+    body('password_confirm').custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error()
+        }
+        return true
+    }).withMessage('Password and confirmation password must match'),
+    body('full_name').isLength({ min: 4 }).withMessage('Full name must at least 4 chars long'),
 
     // Login implementation
     async (request: Request, response: Response) => {
@@ -66,19 +72,19 @@ router.post('/',
         // Check for form validation errors
         const errors = validationResult(request)
         if (!errors.isEmpty()) 
-            return response.status(401).json({ errors: errors })
+            return response.status(403).json({ "errors": errors.array() })
 
         // Verify that both passwords provided are the same
         if (request.body.password != request.body.password_confirm) 
-            return response.status(401).json({ errors: "Passwords do not match!"})
+            return response.status(403).json({ errors: [{ msg: "Invalid value", param: 'passwords',value: 'values do not match' }]})
 
         // Emails are unique for usernames
         if (await User.findOne({ username: request.body.username }) != null) 
-            return response.status(401).json({ errors: "User already exists!" })
+            return response.status(403).json({ errors: ["User already exists!"] })
 
         // Encrypt the password before creating the User and storing them
         await User.encryptPassword(request.body.password, async (err: any, hash: string) => {
-            if (err) return response.status(401).json(err)
+            if (err) return response.status(403).json(err)
 
             const results = await User.findOne({ is_admin: true}).exec()
 
