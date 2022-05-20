@@ -24,7 +24,7 @@ jobs:
 
     - uses: actions/upload-artifact@master
       with:
-        name: docker-image-${{ github.ref }}
+        name: docker-image-${{ env.GITHUB_SHA }}
         path: ./docker-image.tar
 
   publish-docker-image:
@@ -35,7 +35,7 @@ jobs:
     steps:
     - uses: actions/download-artifact@master
       with:
-        name: docker-image-${{ github.ref }}
+        name: docker-image-${{ env.GITHUB_SHA }}
         path: ./docker-image.tar
         
     - name: Extract Docker image
