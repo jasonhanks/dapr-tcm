@@ -8,6 +8,7 @@ const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'
 const TEXT_VALID_PASSWD   = 'Enter a valid password.'
 
 
+test.describe.configure({ mode: 'parallel' })
 test.describe('Login form validations', () => {
 
   test.beforeEach(async ({ page }) => {

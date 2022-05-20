@@ -9,8 +9,9 @@ const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'
 const TEXT_VALID_PASSWD   = 'Enter a valid password.'
 
 
+test.describe.configure({ mode: 'parallel' })
 test.describe('Successful login', () => {
-
+  
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await page.click("text=/Accept/") // Close the disclaimer for Firefox

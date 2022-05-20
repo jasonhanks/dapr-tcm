@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test'
 
 
+test.describe.configure({ mode: 'parallel' })
 test.describe('Signup form', () => {
-
+  
     test.beforeEach(async ({ page }) => {
       await page.goto('/')  // Navigate to the Signup screen
       await page.click("text=/Accept/") //Close the disclaimer for Firefox
