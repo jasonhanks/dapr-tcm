@@ -13,8 +13,17 @@ jobs:
     - name: Checkout the project source code
       uses: actions/checkout@v2
 
-    - name: Build Docker container image from the source code
-      run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
+    # - name: Build Docker container image from the source code
+    #   run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: false
+          tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
     - name: Execute all of the tests within the project
       run: cd .ci && docker-compose run test
@@ -33,6 +42,14 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Publish Docker container image to the GitHub Container Registry
-      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    # - name: Publish Docker container image to the GitHub Container Registry
+    #   run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
 
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
