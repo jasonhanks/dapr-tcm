@@ -20,12 +20,12 @@ jobs:
       run: cd .ci && docker-compose run test
 
     - name: Save docker image
-      run: docker save -o ./docker-image.tar ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+      run: docker save ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest | gzip > ./docker-image.tgz
 
     - uses: actions/upload-artifact@master
       with:
         name: docker-image-${{ env.GITHUB_SHA }}
-        path: ./docker-image.tar
+        path: ./docker-image.tgz
 
   publish-docker-image:
     name: Build Docker image
@@ -36,10 +36,10 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: docker-image-${{ env.GITHUB_SHA }}
-        path: ./docker-image.tar
+        path: ./docker-image.tgz
         
     - name: Extract Docker image
-      run: docker load -i ./docker-image.tar
+      run: docker load < ./docker-image.tgz
 
     - name: Login to GitHub Container Registry so we can publish our image
       uses: docker/login-action@v2
