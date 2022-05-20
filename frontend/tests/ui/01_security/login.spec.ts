@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import validLogin from '../fixtures/api/users//login-valid.json'
-import defaultProject from '../fixtures/api/projects/default.json'
+import validLogin from '../../fixtures/api/users/login-valid.json'
+import defaultProject from '../../fixtures/api/projects/default.json'
 
 
 const TEXT_EMAIL_REQD     = 'Email address is required as your login.'

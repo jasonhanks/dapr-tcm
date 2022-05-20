@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test'
 
-import defaultProject from '../fixtures/api/projects/default.json'
+import defaultProject from '../../fixtures/api/projects/default.json'
 
-import invalidSignupAll from '../fixtures/api/users//signup-invalid-all.json'
-import invalidSignupEmail from '../fixtures/api/users//signup-invalid-email.json'
-import invalidSignupInitials from '../fixtures/api/users//signup-invalid-initials.json'
-import invalidSignupPassword from '../fixtures/api/users//signup-invalid-password.json'
-import invalidSignupPasswordConfirm from '../fixtures/api/users//signup-invalid-password-confirm.json'
-import invalidSignupPassworsMismatch from '../fixtures/api/users//signup-invalid-password-mismatch.json'
+import invalidSignupAll from '../../fixtures/api/users/signup-invalid-all.json'
+import invalidSignupEmail from '../../fixtures/api/users/signup-invalid-email.json'
+import invalidSignupInitials from '../../fixtures/api/users/signup-invalid-initials.json'
+import invalidSignupPassword from '../../fixtures/api/users/signup-invalid-password.json'
+import invalidSignupPasswordConfirm from '../../fixtures/api/users/signup-invalid-password-confirm.json'
+import invalidSignupPassworsMismatch from '../../fixtures/api/users/signup-invalid-password-mismatch.json'
 
-import validSignup from '../fixtures/api/users//signup-valid.json'
+import validSignup from '../../fixtures/api/users/signup-valid.json'
 
 
 test.describe('Signup form', () => {
