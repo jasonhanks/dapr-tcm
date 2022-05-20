@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-docker-image:
-    name: Build Docker image and push to repositories
+    name: Build Docker image
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the project source code
@@ -16,6 +16,10 @@ jobs:
     # - name: Build Docker container image from the source code
     #   run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+        
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
@@ -30,7 +34,7 @@ jobs:
 
 
   publish-docker-image:
-    name: Publish the Docker image to the GitHub Container Repository
+    name: Publish the Docker image
     runs-on: ubuntu-latest
     needs: build-docker-image
     if: github.ref == 'refs/heads/main'
