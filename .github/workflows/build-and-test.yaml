@@ -1,18 +1,52 @@
-name: Build and Publish
+name: Build and Test
 
 on:
+  push:
+    branches: [main]
   pull_request:
 
 jobs:
-  build-docker-image:
-    name: Build Docker image
+  build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the project source code
       uses: actions/checkout@v2
 
-    - name: Build Docker container image from the source code
+    - name: Build Docker container image
       run: docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
-    - name: Execute all of the tests within the project
+    - name: Execute all of the tests
       run: cd .ci && docker-compose run test
+
+    - name: Save docker image
+      run: docker save ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest | gzip > ./docker-image.tgz
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: docker-image-${{ env.GITHUB_SHA }}
+        path: ./docker-image.tgz
+
+  publish-docker-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: docker-image-${{ env.GITHUB_SHA }}
+        path: ./docker-image.tgz
+        
+    - name: Extract Docker image
+      run: docker load < ./docker-image.tgz
+
+    - name: Login to GitHub Container Registry so we can publish our image
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Publish Docker container image to the GitHub Container Registry
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
