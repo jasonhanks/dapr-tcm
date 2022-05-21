@@ -7,6 +7,8 @@ data:
   # Endpoint for the MongoDB instance we are using
   DATABASE_URL: mongodb://mongodb:27017/trac-tcm
 
+  ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/
+
   # What endpoint URL is on this Pod? 
   BASE_URL: http://localhost
 
