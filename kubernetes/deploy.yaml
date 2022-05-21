@@ -33,6 +33,17 @@ spec:
         ports:
         - containerPort: 27017
       
+      - image: mongo-express
+        name: mongo-expreses
+        envFrom:
+        - configMapRef:
+            name: trac-tcm
+        ports:
+        - containerPort: 8081
+        resources: 
+          limits:
+            cpu: "0.25"
+            memory: 128Mi
 
       - image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
         name: trac-tcm

@@ -17,3 +17,13 @@ spec:
               number: 3000
         path: /
         pathType: Prefix
+  - host: trac-tcm-mongo.example.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: trac-tcm
+            port:
+              number: 8081
+        path: /
+        pathType: Prefix

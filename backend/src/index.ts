@@ -32,5 +32,5 @@ app.use('/api/users', require('./api/users'))
 // Startup the Express server
 const PORT = process.env.port || 3001
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`)
+    console.log(`API server started on port ${PORT}`)
 })
