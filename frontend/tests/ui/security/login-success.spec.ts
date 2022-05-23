@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+
 import validLogin from '../../fixtures/api/users/login-valid.json'
 import defaultProject from '../../fixtures/api/projects/default.json'
 
