@@ -3,6 +3,18 @@ version: '3.1'
 
 services:
 
+  # MongoDB is the NoSQL data store needed for the app
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo     # specify hostname used for this service
+    restart: unless-stopped
+    environment:
+      # Provide the database to use in MongoDB
+      MONGO_INITDB_DATABASE: trac-tcm
+    ports:
+      - 27017:27017     # MongoDB port
+  
   trac:
     build: ..
     image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
@@ -11,7 +23,11 @@ services:
     - 3000:3000
     entrypoint: serve
     command: ['-s', '/app/frontend/build']
+    environment:
+      DATABASE_URL: mongodb://mongo:27017/trac-tcm
 
+      # This is required for the Node.JS proxy to work properly
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
 
   test:
     image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
