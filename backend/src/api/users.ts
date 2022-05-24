@@ -15,6 +15,31 @@ const router = express.Router()
   */
 
 
+// Implementation for /api/users DELETE
+router.delete('/:id', 
+    async (request: Request, response: Response) => {
+        const count = await User.countDocuments({ _id: request.params.id })
+        if(count == 0){
+            console.log(`Username was not found: ${ request.params.id }`)
+            return response.status(404).json({})
+        }
+
+        // Delete the User
+        await User.deleteOne({ _id: request.params.id })
+
+        // Verify that we were able to remove the User
+        const newCount = await User.countDocuments({ _id: request.params.id })
+        if(newCount != count-1) {
+            console.log(`Username was not deleted: ${ request.params.id }`)
+            return response.status(403).json({})
+        }
+
+        console.log(`Username was deleted: ${ request.params.id }`)
+        return response.status(200).json({})
+    }
+)
+
+
 // Implementation for /api/users/login POST route
 router.post('/login',
 
