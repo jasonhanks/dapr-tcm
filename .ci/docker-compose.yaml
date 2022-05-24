@@ -28,6 +28,8 @@ services:
 
       # This is required for the Node.JS proxy to work properly
       DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+    depends_on:
+      - mongo
 
   test:
     image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
