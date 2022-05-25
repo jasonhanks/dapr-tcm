@@ -36,6 +36,10 @@ services:
     container_name: trac-tcm-tests
     environment:
       BASE_URL: http://trac:3000/
+      DATABASE_URL: mongodb://mongo:27017/trac-tcm
+
+      # This is required for the Node.JS proxy to work properly
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
     entrypoint: "npm"
     command: run test
     working_dir: /app/frontend
