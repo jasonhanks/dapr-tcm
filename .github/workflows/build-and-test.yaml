@@ -16,3 +16,9 @@ jobs:
 
     - name: Execute all of the tests
       run: cd .ci && docker-compose run test
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "frontend/cypress/results/**/*.xml"

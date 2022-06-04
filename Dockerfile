@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:focal
+FROM node:18.1.0-bullseye-slim
 
 
 RUN mkdir /app
@@ -25,8 +25,6 @@ RUN cd /app/backend && npm install
 COPY frontend/package*json /app/frontend/
 RUN cd /app/frontend && npm install 
 
-RUN npx playwright install && npx playwright install-deps 
-
 
 # Copy the project source into the container
 COPY . .
@@ -43,11 +41,11 @@ EXPOSE 3001
 
 
 # Environment variable default values
-ENV DATABASE_URL = mongodb://mongodb:27017/
+ENV DATABASE_URL = "mongodb://mongodb:27017/"
 
 
 # Start PM2 as PID 1 process
-ENTRYPOINT ["pm2", "--no-daemon", "start"]
+ENTRYPOINT ["pm2", "start", "--attach"]
 
 
 # Actual script to start can be overridden from `docker run`

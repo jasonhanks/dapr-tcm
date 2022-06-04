@@ -1,18 +1,18 @@
 module.exports = {
   apps : [
     { 
-      name   : "backend",
-      script : "npm",
-      automation: false,
-      args: "run-script dev",
-      cwd: "./backend"
-    },
-    { 
       name   : "frontend",
       script : "npm",
-      automation: false,
-      args: "run-script start",
+      exec_mode: "cluster",
+      args: "run serve",
       cwd: "./frontend"
     },
+    { 
+      name   : "backend",
+      script : "npm",
+      args: "run serve",
+      exec_mode: "cluster",
+      cwd: "./backend"
+    }
   ]
 }
