@@ -25,9 +25,9 @@ RUN mkdir /app
 WORKDIR /app
 
 # Copy the compiled output files built from TS
-COPY --from=builder /app/*json /app
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/*json /app/
+COPY --from=builder /app/node_modules /app/node_modules/
+COPY --from=builder /app/dist /app/dist/
 
 # Expose the API server port
 EXPOSE 3001

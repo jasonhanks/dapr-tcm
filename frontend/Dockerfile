@@ -24,7 +24,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the compiled output files built from TS
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html/
 
 # Copy the configuration files for NGINX
 COPY nginx.template /etc/nginx/conf.d/default.conf.template
