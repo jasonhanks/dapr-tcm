@@ -1,25 +1,67 @@
-# Use root/example as user/password credentials
 version: '3.1'
-
 services:
+
+  # MongoDB is the NoSQL data store needed for the app
+  mongo:
+    image: mongo
+    container_name: mongo
+    hostname: mongo     # specify hostname used for this service
+    restart: unless-stopped
+    environment:
+      # Provide the database to use in MongoDB
+      MONGO_INITDB _DATABASE: trac-tcm
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017     # MongoDB port
+
+
+  # Mongo Express is a UI to view MongoDB data
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: unless-stopped
+    depends_on: 
+      - mongo           # wait for MongoDB server to start
+    ports:
+    - 8081:8081         # Mongo Express UI port
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
 
   trac:
     build: ..
-    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    # image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
     container_name: trac-tcm
     ports:
     - 3000:3000
+    - 3001:3001
     entrypoint: serve
     command: ['-s', '/app/frontend/build']
+    depends_on: 
+      - mongo-express           # wait for MongoDB server to start
+    environment:
+      DATABASE_URL: mongodb://root:example@mongo:27017/
+
+      # This is required for the Node.JS proxy to work properly
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
 
 
   test:
-    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    build: ..
+    # image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
     container_name: trac-tcm-tests
     environment:
       BASE_URL: http://trac:3000/
+      DATABASE_URL: mongodb://root:example@mongo:27017/
+
+      # This is required for the Node.JS proxy to work properly
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
     entrypoint: "npm"
     command: run test
+    ports: []
     working_dir: /app/frontend
     depends_on:
       - trac
