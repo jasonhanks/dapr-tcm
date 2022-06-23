@@ -1,4 +1,12 @@
-# Use root/example as user/password credentials
+##
+## Sample Docker Compose deployment file. This will deploy the following containers:
+##    - MongoDB data store service    (MongoDB NoSQL persistent data store)
+##    - TRAC-API backend API service  (Express API service)
+##    - TRAC-TCM frontend UI service  (NGINX frontend service for React components and providing proxy to the TRAC-API service)
+##
+## NOTE: the MongoDB service demonstrated here is using defaults and not safe for production deployments.
+##
+
 version: '3.1'
 
 services:
@@ -7,24 +15,18 @@ services:
   mongo:
     image: mongo
     restart: unless-stopped
-    # environment:
-      # Provide the database to use in MongoDB
-      # MONGO_INITDB_DATABASE: trac-tcm
     ports:
       - 27017:27017     # MongoDB port
 
 
-  # Mongo Express is a UI to view MongoDB data for debugging purposes
+  ## This can be optionally deployed to provide a UI to view the MongoDB data store directly
   # mongo-express:
   #   image: mongo-express
   #   restart: unless-stopped
   #   depends_on: 
-  #     - mongo           # wait for MongoDB server to start
+  #     - mongo           # wait for MongoDB service to start
   #   ports:
   #   - 8081:8081         # Mongo Express UI port
-  #   environment:
-  #     # Mongo Express connection information (our own MongoDB server)
-  #     ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
 
   # This container provides the TRAC-API service needed by the user interface
@@ -47,6 +49,8 @@ services:
   trac-tcm:
     build: ./frontend
     image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    depends_on:
+      - trac-api
     restart: unless-stopped
     ports:
     - "3000:80"
