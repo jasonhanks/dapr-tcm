@@ -8,7 +8,7 @@ import initializeDB from './db/initialize_db'
 const app = express();
  
 // Connect to the MongoDB instance
-const mongoString = process.env.DATABASE_URL || "mongodb://localhost:27017/dapr_tcm"
+const mongoString = process.env.DATABASE_URL || "mongodb://localhost:27017/"
 console.log("DATABASE_URL = "+ mongoString)
 mongoose.connect(mongoString);
 
@@ -19,7 +19,8 @@ database.on('error', (error) => {
 
 database.once('connected', async () => {
     console.log('MongoDB database is connected')
-    await initializeDB()})
+    await initializeDB()
+})
 
 // Load the API routes
 app.use(bodyParser.json())
