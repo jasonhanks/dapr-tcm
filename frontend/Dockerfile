@@ -9,7 +9,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Install the packages for the backend
-COPY package*json /app
+COPY package*json /app/
 RUN npm install 
 
 # Copy the project source into the container
