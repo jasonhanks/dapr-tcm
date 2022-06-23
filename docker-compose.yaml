@@ -6,43 +6,53 @@ services:
   # MongoDB is the NoSQL data store needed for the app
   mongo:
     image: mongo
-    container_name: mongo
-    hostname: mongo     # specify hostname used for this service
     restart: unless-stopped
-    environment:
+    # environment:
       # Provide the database to use in MongoDB
-      MONGO_INITDB_DATABASE: trac-tcm
+      # MONGO_INITDB_DATABASE: trac-tcm
     ports:
       - 27017:27017     # MongoDB port
 
 
-  # Mongo Express is a UI to view MongoDB data
-  mongo-express:
-    image: mongo-express
-    restart: unless-stopped
-    depends_on: 
-      - mongo           # wait for MongoDB server to start
-    ports:
-    - 8081:8081         # Mongo Express UI port
-    environment:
-      # Mongo Express connection information (our own MongoDB server)
-      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+  # Mongo Express is a UI to view MongoDB data for debugging purposes
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: unless-stopped
+  #   depends_on: 
+  #     - mongo           # wait for MongoDB server to start
+  #   ports:
+  #   - 8081:8081         # Mongo Express UI port
+  #   environment:
+  #     # Mongo Express connection information (our own MongoDB server)
+  #     ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
 
-  # TRAC-TCM launches the API server and React frontend code
-  trac-tcm:
-    build: .            # Build image from local Dockerfile
-    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest    # public image name if not building
-    container_name: trac-tcm
+  # This container provides the TRAC-API service needed by the user interface
+  trac-api:
+    build: ./backend            # Build image from local Dockerfile
+    image: ghcr.io/jasonhanks/trac-tcm/trac-api:latest    # public image name if not building
     restart: unless-stopped
     depends_on: 
-      - mongo-express   # wait on mongo-express server to startup
+      - mongo   # wait on mongo-express server to startup
     environment:
       # This is required to connect to the desired MongoDB instance
-      DATABASE_URL: mongodb://mongo:27017/trac-tcm
-
+      DATABASE_URL: mongodb://mongo:27017/
       # This is required for the Node.JS proxy to work properly
       DANGEROUSLY_DISABLE_HOST_CHECK: "true"
     ports:
-      - 3000:3000       # React frontend port
-      - 3001:3001       # API server port
+      - 3001:3001       # API server port (only used for debugging the API)
+
+
+  # This container provides the TRAC-TCM user interface that connects to the TRAC-API service
+  trac-tcm:
+    build: ./frontend
+    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    restart: unless-stopped
+    ports:
+    - "3000:80"
+    environment:
+    - NGINX_HOST=localhost
+    - NGINX_PORT=80
+
+    # Reference the backend API we're mapping /api to the service name for TRAC-API
+    - API_URL=http://trac-api:3001
