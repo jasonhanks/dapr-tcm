@@ -15,7 +15,7 @@ jobs:
       run: cd backend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-api:latest .
 
     - name: Build Docker frontend React UI container
-      run: cd frontend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
+      run: cd ../frontend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
     # - name: Execute all of the tests
     #   run: cd .ci && docker-compose run test
