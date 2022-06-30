@@ -8,8 +8,8 @@ describe('Signup form submissions', () => {
       cy.visit('/')
       cy.get("button").contains("Click here to Sign Up").click() // Navigate to the Signup form
       cy.get("button").contains("Accept").click() // Close the disclaimer for Firefox
-      cy.intercept('POST', '/api/users/login', {fixture: 'api/users/login-invalid.json'}).as('invalidLogin')
-      cy.intercept('GET', '/api/projects', {fixture: 'api/projects/default.json'}).as('defaultProject')
+      cy.intercept('POST', '/api/users/login', {fixture: 'tcm/users/login-invalid.json'}).as('invalidLogin')
+      cy.intercept('GET', '/api/projects', {fixture: 'tcm/projects/default.json'}).as('defaultProject')
 
     })
   

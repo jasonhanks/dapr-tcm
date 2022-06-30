@@ -5,18 +5,13 @@ describe('Login form submissions', () => {
   beforeEach(() => {
       cy.visit('/')
       cy.get("button").contains("Accept").click() // Close the disclaimer for Firefox
-      cy.intercept('POST', '/api/users/login', {fixture: 'api/users/login-invalid.json'}).as('invalidLogin')
-      cy.intercept('GET', '/api/projects', {fixture: 'api/projects/default.json'}).as('defaultProject')
+      cy.intercept('POST', '/api/users/login', {fixture: 'tcm/users/login-invalid.json'}).as('invalidLogin')
+      cy.intercept('GET', '/api/projects', {fixture: 'tcm/projects/default.json'}).as('defaultProject')
+      cy.intercept('POST', '/api/users/login', {fixture: 'tcm/users/login-valid.json' }).as('validLogin')
     })
   
   
     context('API - successful login validations', () => {
-  
-      beforeEach(() => {
-        cy.visit('/')
-        cy.get("button").contains("Accept").click() // Close the disclaimer for Firefox
-        cy.intercept('POST', '/api/users/login', {fixture: 'api/users/login-valid.json' }).as('validLogin')
-      })
   
       it('navigates the user to the Dashboard with valid credentials', () => {
         const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'

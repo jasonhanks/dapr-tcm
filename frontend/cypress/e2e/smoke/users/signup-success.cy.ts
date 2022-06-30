@@ -7,7 +7,7 @@ describe('Signup form submissions', () => {
       cy.get("button").contains("Click here to Sign Up").click() // Navigate to the Signup form
       cy.contains('Signup for Account')
       cy.get("button").contains("Accept").click() // Close the disclaimer for Firefox
-      cy.intercept('GET', '/api/projects', {fixture: 'api/projects/default.json'}).as('defaultProject')
+      cy.intercept('GET', '/api/projects', {fixture: 'tcm/projects/default.json'}).as('defaultProject')
 
     })
   
