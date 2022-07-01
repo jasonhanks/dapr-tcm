@@ -43,8 +43,21 @@ spec:
         resources: 
           limits:
             cpu: "0.25"
-            memory: 128Mi
+            memory: 64Mi
 
+      - image: ghcr.io/jasonhanks/trac-tcm/trac-api:latest
+        name: trac-tcm
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: trac-tcm
+        ports:
+        - containerPort: 3001 # Express API server
+        resources: 
+          limits:
+            cpu: "1"
+            memory: 256Mi
+        
       - image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
         name: trac-tcm
         imagePullPolicy: IfNotPresent
@@ -53,11 +66,10 @@ spec:
             name: trac-tcm
         ports:
         - containerPort: 3000 # React UI
-        - containerPort: 3001 # Express API server
         resources: 
           limits:
             cpu: "1"
-            memory: 5122Mi
+            memory: 256Mi
         
       volumes:
         - name: mongodb

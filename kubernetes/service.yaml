@@ -22,4 +22,4 @@ spec:
       name: trac-tcm-mongo
       
   # type: LoadBalancer
-  # loadBalancerIP: 192.168.1.111 # specify the required load balancer IP for this Serice
+  # loadBalancerIP: 192.168.1.111 # specify the required load balancer IP for this Service
