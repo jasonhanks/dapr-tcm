@@ -8,7 +8,7 @@ WORKDIR /app
 # Specify the environment we are running in
 ENV NODE_ENV=production
 
-# Install the packages for the backend
+# Install the packages for the frontend
 COPY package*json /app/
 RUN npm install 
 
@@ -20,7 +20,7 @@ RUN npm run build
 
 
 ## Setup the final image using NGINX to serve static files and proxy 
-## the API calls to the defined backend server available at ${API_URL}
+## the API calls to the defined frontend server available at ${API_URL}
 FROM nginx:alpine
 
 # Copy the compiled output files built from TS
