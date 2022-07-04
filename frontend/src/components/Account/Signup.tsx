@@ -64,48 +64,48 @@ export default function Signup(args: any) {
             <form action="" method="post" onSubmit={handleSubmit}>
                 <FormControl isRequired isInvalid={username.length < 5}>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
-                    <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                    <FormHelperText>
+                    <Input id='username' name="username" type='text' data-test="username" onChange={(e) => setUsername(e.target.value)} />
+                    <FormHelperText data-test="username-help">
                         Enter the email you'd like to use as your login.
                     </FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl isRequired>
                     <FormLabel htmlFor='full_name'>Full Name</FormLabel>
-                    <Input id='full_name' name="full_name" type='text' onChange={(e) => setFullName(e.target.value)} />
-                    <FormHelperText>Enter your preferred full name to use.</FormHelperText>
+                    <Input id='full_name' name="full_name" type='text' data-test="full_name" onChange={(e) => setFullName(e.target.value)} />
+                    <FormHelperText data-test="full_name-help">Enter your preferred full name to use.</FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl isRequired>
                     <FormLabel htmlFor='initials'>Initials</FormLabel>
-                    <Input id='initials' name="initials" type='text' onChange={(e) => setInitials(e.target.value)} />
-                    <FormHelperText>Enter your preferred short name / initials to use.</FormHelperText>
+                    <Input id='initials' name="initials" type='text' data-test="initials" onChange={(e) => setInitials(e.target.value)} />
+                    <FormHelperText data-test="initials-help">Enter your preferred short name / initials to use.</FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl isRequired isInvalid={validatePassword()}>
                     <FormLabel htmlFor='password'>Password</FormLabel>
-                    <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
-                    <FormHelperText>Never reuse or share your passwords.</FormHelperText>
+                    <Input id='password' name="password" type='password' data-test="password" onChange={(e) => setPassword(e.target.value)} />
+                    <FormHelperText data-test="password-help">Never reuse or share your passwords.</FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl isRequired isInvalid={validatePassword() && (password !== password_confirm)}>
                     <FormLabel htmlFor='password_confirm'>Confirm Password</FormLabel>
-                    <Input id='password_confirm' name="password_confirm" type='password' onChange={(e) => setPasswordConfirm(e.target.value)} />
-                    <FormHelperText>Please confirm your new password.</FormHelperText>
+                    <Input id='password_confirm' name="password_confirm" type='password' data-test="password_confirm" onChange={(e) => setPasswordConfirm(e.target.value)} />
+                    <FormHelperText data-test="password-confirm-help">Please confirm your new password.</FormHelperText>
                 </FormControl>
                 <br/>
                 <FormControl>
-                    <Input id='submit' type='Submit' onClick={handleSubmit} />
-                    <FormHelperText>Create your new account.</FormHelperText>
+                    <Input id='submit' type='Submit' data-test="submit" onClick={handleSubmit} />
+                    <FormHelperText data-test="submit-help">Create your new account.</FormHelperText>
                 </FormControl>
             </form>
 
             <br />
-            <span className="errors" id="errors">{ errors }</span>
+            <span className="errors" id="errors" data-test="errors">{ errors }</span>
 
             <br/>            
             <userContext.Consumer>
-                {({toggleSignup}) => <button onClick={() => toggleSignup() }>Existing user? Login to existing account!</button>}
+                {({toggleSignup}) => <button data-test="login-link" onClick={() => toggleSignup() }>Existing user? Login to existing account!</button>}
             </userContext.Consumer>
 
             <br/>

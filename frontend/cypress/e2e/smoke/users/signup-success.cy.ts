@@ -1,3 +1,7 @@
+import SignupPage from '../../../pages/users/signup'
+
+
+const signupPage: SignupPage = new SignupPage()
 
  
 describe('Signup form submissions', () => {
@@ -18,16 +22,16 @@ describe('Signup form submissions', () => {
       it('Validate successful Signup', () => {
         cy.intercept('POST', '/api/users', {fixture: 'api/users/signup-valid.json', statusCode: 200}).as('validSignup')
 
-        cy.get('#username').type('valid-user@example.com')
-        cy.get('#full_name').type('Valid User')
-        cy.get('#initials').type('VU')
-        cy.get('#password').type('asdfasdf')
-        cy.get('#password_confirm').type('asdfasdf')
-        cy.get('#submit').click()
+        signupPage.typeUsername('valid-user@example.com')
+        signupPage.typeFullName('Valid User')
+        signupPage.typeInitials('VU')
+        signupPage.typePassword('asdfasdf')
+        signupPage.typePasswordConfirm('asdfasdf')
+        signupPage.clickSubmit()
         cy.wait(['@validSignup', '@defaultProject'])
     
         // Make sure we are logged in successfully
-        cy.get('#errors').should("not.exist")
+        signupPage.findErrors().should("not.exist")
         cy.contains('p', 'TRAC TCM')
         cy.contains('p', 'Home')
   

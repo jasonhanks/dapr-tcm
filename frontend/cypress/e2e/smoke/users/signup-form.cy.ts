@@ -1,3 +1,7 @@
+import SignupPage from '../../../pages/users/signup'
+
+
+const signupPage: SignupPage = new SignupPage()
 
 
 describe('Signup form validations', () => {
@@ -19,11 +23,11 @@ describe('Signup form validations', () => {
     context('Client side form validations', () => {
   
       it('shows help text by default', () => {
-        cy.get('#field-1-helptext').contains("Enter the email you'd like to use as your login.")
-        cy.get('#field-2-helptext').contains("Enter your preferred full name to use.")
-        cy.get('#field-3-helptext').contains("Enter your preferred short name / initials to use.")
-        cy.get('#field-4-helptext').contains('Never reuse or share your passwords.')
-        cy.get('#field-5-helptext').contains("Please confirm your new password.")
+        signupPage.findUsernameHelp().contains("Enter the email you'd like to use as your login.")
+        signupPage.findFullNameHelp().contains("Enter your preferred full name to use.")
+        signupPage.findInitialsHelp().contains("Enter your preferred short name / initials to use.")
+        signupPage.findPasswordHelp().contains('Never reuse or share your passwords.')
+        signupPage.findPasswordConfirmHelp().contains("Please confirm your new password.")
       })
   
   
