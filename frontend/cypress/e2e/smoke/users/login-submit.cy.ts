@@ -1,6 +1,9 @@
+import LoginPage from '../../../../pages/users/login'
 
 
 const TEXT_INVALID_LOGIN  = 'Invalid username or password'
+
+const loginPage: LoginPage = new LoginPage()
 
 
 describe('Login form submissions', () => {
@@ -16,34 +19,34 @@ describe('Login form submissions', () => {
     context('Error validations', () => {
   
       it('shows error when using an empty username', () => {
-        cy.get('#password').click().type('asdfasdf')
-        cy.get('#submit').click()
+        loginPage.typePassword('asdfasdf')
+        loginPage.clickSubmit()
         cy.wait('@invalidLogin')
-        cy.get('#errors').contains(TEXT_INVALID_LOGIN)
+        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
       })
     
       it('shows error when using username is not an email address', () => {
-        cy.get('#username').click().type('not-an-email-address')
-        cy.get('#password').click().type('asdfasdf')
-        cy.get('#submit').click()
+        loginPage.typeUsername('not-an-email-address')
+        loginPage.typePassword('asdfasdf')
+        loginPage.clickSubmit()
         cy.wait('@invalidLogin')
-        cy.get('#errors').contains(TEXT_INVALID_LOGIN)
+        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
       })
     
       it('shows error when using an empty password', () => {
-        cy.get('#username').click().type('valid-user@gmail.com')
-        cy.get('#submit').click()
+        loginPage.typeUsername('valid-user@gmail.com')
+        loginPage.clickSubmit()
         cy.wait('@invalidLogin')
-        cy.get('#errors').contains(TEXT_INVALID_LOGIN)
+        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
       })
     
       it('shows error when Submitting an empty form', () => {
-        cy.get('#submit').click()
+        loginPage.clickSubmit()
         cy.wait('@invalidLogin')
-        cy.get('#errors').contains(TEXT_INVALID_LOGIN)
+        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
       })
   
     })
   
-  
   })
+  

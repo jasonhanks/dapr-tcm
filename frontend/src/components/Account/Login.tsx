@@ -56,33 +56,33 @@ export default function Login(args: any) {
 
             <FormControl isRequired isInvalid={username.length < 5}>
                 <FormLabel htmlFor='username'>Email address</FormLabel>
-                <Input id='username' name="username" type='text' onChange={(e) => setUsername(e.target.value)} />
-                <FormHelperText>Email address is required as your login.</FormHelperText>
+                <Input id='username' name="username" type='text' data-test="username" onChange={(e) => setUsername(e.target.value)} />
+                <FormHelperText data-test="username-help">Email address is required as your login.</FormHelperText>
             </FormControl>
             <br/>
             <FormControl isRequired isInvalid={!validatePassword()}>
                 <FormLabel htmlFor='password'>Password</FormLabel>
-                <Input id='password' name="password" type='password' onChange={(e) => setPassword(e.target.value)} />
+                <Input id='password' name="password" type='password' data-test="password" onChange={(e) => setPassword(e.target.value)} />
                 {validatePassword() ? 
-                        <FormHelperText>Never reuse or share your passwords with anyone.</FormHelperText>
+                        <FormHelperText data-test="password-help">Never reuse or share your passwords with anyone.</FormHelperText>
                      : 
-                        <FormErrorMessage>Enter a valid password.</FormErrorMessage>
+                        <FormErrorMessage data-test="password-error">Enter a valid password.</FormErrorMessage>
                 }
             </FormControl>
             <br/>
             <FormControl>
-                <Input id='submit' type='Submit' onClick={handleSubmit} />
-                <FormHelperText>Login to your account.</FormHelperText>
-                {errors.length > 0 && <FormErrorMessage>Enter your login email address.</FormErrorMessage>}
+                <Input id='submit' type='Submit' data-test="submit" onClick={handleSubmit} />
+                <FormHelperText data-test="submit-help">Login to your account.</FormHelperText>
+                {errors.length > 0 && <FormErrorMessage data-test="submit-error">Enter your login email address.</FormErrorMessage>}
             </FormControl>
             </form>
 
             <br/>
-            <div id="errors" className="errors">{ errors }</div>
+            <div id="errors" className="errors" data-test="errors">{ errors }</div>
             <br/>
             <div>
                 <userContext.Consumer>
-                    {({toggleSignup}) => <button onClick={() =>  toggleSignup() }>New user? Click here to Sign Up!</button>}
+                    {({toggleSignup}) => <button data-test="signup" onClick={() =>  toggleSignup() }>New user? Click here to Sign Up!</button>}
                 </userContext.Consumer>
 
                 <br/>

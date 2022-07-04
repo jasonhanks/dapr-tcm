@@ -17,6 +17,7 @@ export default defineConfig({
   },
   e2e: {
     baseUrl: "http://localhost:3000",
-    supportFolder: "support"
+    supportFolder: "support",
+    supportFile: "cypress/support/index.js"
   },
 })

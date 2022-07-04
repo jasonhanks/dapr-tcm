@@ -1,3 +1,7 @@
+import LoginPage from '../../../../pages/users/login'
+
+
+const loginPage: LoginPage = new LoginPage()
 
 
 describe('Login form submissions', () => {
@@ -16,10 +20,10 @@ describe('Login form submissions', () => {
       it('navigates the user to the Dashboard with valid credentials', () => {
         const TEXT_PASSWD_REUSE   = 'Never reuse or share your passwords with anyone.'
 
-        cy.get('#username').click().type('valid-user@gmail.com')
-        cy.get('#password').click().type('asdfasdf')
-        cy.contains('#field-2-helptext', TEXT_PASSWD_REUSE)
-        cy.get('#submit').click()
+        loginPage.typeUsername('valid-user@gmail.com')
+        loginPage.typePassword('asdfasdf')
+        loginPage.findPasswordHelp().contains(TEXT_PASSWD_REUSE)
+        loginPage.clickSubmit()
         cy.wait(['@validLogin', '@defaultProject'])
   
         // Make sure we are logged in successfully
