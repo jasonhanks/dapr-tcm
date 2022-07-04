@@ -1,4 +1,4 @@
-import LoginPage from '../../../../pages/users/login'
+import LoginPage from '../../../pages/users/login'
 
 
 const TEXT_EMAIL_REQD     = 'Email address is required as your login.'

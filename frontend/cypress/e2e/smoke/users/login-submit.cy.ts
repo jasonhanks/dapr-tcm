@@ -1,4 +1,4 @@
-import LoginPage from '../../../../pages/users/login'
+import LoginPage from '../../../pages/users/login'
 
 
 const TEXT_INVALID_LOGIN  = 'Invalid username or password'
