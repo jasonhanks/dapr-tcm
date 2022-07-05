@@ -1,4 +1,4 @@
-resolver  127.0.0.11 valid=10s;  # recover from the backend's IP changing
+#resolver  127.0.0.11 valid=10s;  # recover from the backend's IP changing
 
 server {
   listen  80;
