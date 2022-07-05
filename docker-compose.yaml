@@ -60,15 +60,3 @@ services:
 
     # Reference the backend API we're mapping /api to the service name for TRAC-API
     - API_URL=http://trac-api:3001
-
-
-  trac-tests:
-    image: cypress/included:10.3.0
-    depends_on:
-     - trac-tcm
-    working_dir: /e2e
-    environment:
-      CYPRESS_BASE_URL: http://trac-tcm
-    command: ['--browser', 'chrome']
-    volumes:
-      - ./frontend:/e2e
