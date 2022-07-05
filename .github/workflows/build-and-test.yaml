@@ -15,10 +15,10 @@ jobs:
       run: docker compose up -d mongo
 
     - name: 'Start the trac-api services'
-      run: docker compose up -d --build --abort-on-container-exit trac-api
+      run: docker compose up -d --build trac-api
 
     - name: 'Start the trac-tcm services'
-      run: docker compose up -d --build --abort-on-container-exit trac-tcm
+      run: docker compose up -d --build trac-tcm
 
     - name: 'Start the trac-tcm services then launch the Cypress tests'
       run: docker compose run trac-tests
