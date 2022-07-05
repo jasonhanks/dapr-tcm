@@ -11,14 +11,8 @@ jobs:
     - name: Checkout the project source
       uses: actions/checkout@v2
 
-    # - name: Build Docker backend API container
-    #   run: cd backend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-api:latest .
-
-    # - name: Build Docker frontend React UI container
-    #   run: cd frontend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
-
     - name: 'Start the trac-tcm services then launch the Cypress tests'
-      run: cd .ci && docker-compose up --build --abort-on-container-exit
+      run: docker-compose up --build --abort-on-container-exit trac-tests
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
