@@ -14,7 +14,7 @@ spec:
           service:
             name: trac-tcm
             port:
-              number: 3000
+              number: 80
         path: /
         pathType: Prefix
   - host: trac-tcm-mongo.example.com
