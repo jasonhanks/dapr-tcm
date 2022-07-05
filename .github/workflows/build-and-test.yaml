@@ -17,14 +17,32 @@ jobs:
     - name: Build Docker frontend React UI container
       run: cd frontend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
 
-    # - name: Execute all of the tests
-    #   run: cd .ci && docker-compose run test
 
-    # - name: Publish Test Results
-    #   uses: EnricoMi/publish-unit-test-result-action@v1
-    #   if: always()
-    #   with:
-    #     files: "frontend/cypress/results/**/*.xml"
+    - name: Start the Mongo server
+      run: docker run -d --name mongo -p 27017:27017 mongo
+
+    - name: Start the trac-api service
+      run: docker run -d --name trac-api -p 3001:3001 ghcr.io/jasonhanks/trac-tcm/trac-api:latest
+
+    - name: 'Start the trac-tcm services then launch the Cypress tests'
+      uses: cypress-io/github-action@v4
+      with:
+        # we have already installed all dependencies above
+        install: false
+        start: docker run -d --name trac-tcm -p 3000:3000 ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+        wait-on: 'http://localhost:3000'
+        wait-on-timeout: 120
+        browser: chrome
+        # record: true
+        parallel: true
+        # group: 'UI - Chrome'
+        spec: frontend/cypress/e2e/*
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "frontend/cypress/results/**/*.xml"
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
