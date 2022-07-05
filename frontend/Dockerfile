@@ -33,6 +33,8 @@ COPY nginx.template /etc/nginx/conf.d/default.conf.template
 COPY docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh
 
+EXPOSE 80
+
 # Startup the NGINX process
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
