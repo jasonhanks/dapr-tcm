@@ -11,8 +11,17 @@ jobs:
     - name: Checkout the project source
       uses: actions/checkout@v2
 
+    - name: 'Start up a MongoDB container'
+      run: docker compose up -d mongo
+
+    - name: 'Start the trac-api and trac-tcm services'
+      run: docker compose up -d --build --abort-on-container-exit trac-api trac-tcm
+
     - name: 'Start the trac-tcm services then launch the Cypress tests'
-      run: docker compose up --build --abort-on-container-exit trac-tests
+      run: docker compose run trac-tests
+
+    - name: 'Shut down the containers'
+      run: docker compose down
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
