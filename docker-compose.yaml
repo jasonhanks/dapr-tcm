@@ -69,5 +69,6 @@ services:
     working_dir: /e2e
     environment:
       CYPRESS_BASE_URL: http://trac-tcm
+    command: ['--browser', 'chrome']
     volumes:
       - ./frontend:/e2e

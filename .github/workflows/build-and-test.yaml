@@ -23,7 +23,7 @@ jobs:
     - name: 'Start the trac-tcm services'
       run: docker compose up -d --build trac-tcm
 
-    - name: 'Start the trac-tcm services then launch the Cypress tests'
+    - name: 'Launch the Cypress tests'
       run: docker compose run trac-tests
 
     - name: 'Shut down the containers'
