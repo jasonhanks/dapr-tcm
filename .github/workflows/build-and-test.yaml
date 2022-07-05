@@ -11,6 +11,9 @@ jobs:
     - name: Checkout the project source
       uses: actions/checkout@v2
 
+    - name: 'Install NPM packages for Cypress'
+      run: cd frontend && npm install
+
     - name: 'Start up a MongoDB container'
       run: docker compose up -d mongo
 
