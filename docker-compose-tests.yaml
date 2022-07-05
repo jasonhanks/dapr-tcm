@@ -1,0 +1,24 @@
+##
+## Sample Docker Compose deployment file. This will deploy the following containers:
+##    - MongoDB data store service    (MongoDB NoSQL persistent data store)
+##    - TRAC-API backend API service  (Express API service)
+##    - TRAC-TCM frontend UI service  (NGINX frontend service for React components and providing proxy to the TRAC-API service)
+##
+## NOTE: the MongoDB service demonstrated here is using defaults and not safe for production deployments.
+##
+
+version: '3.1'
+
+services:
+
+
+  trac-tests:
+    image: cypress/included:10.3.0
+    depends_on:
+     - trac-tcm
+    working_dir: /e2e
+    environment:
+      CYPRESS_BASE_URL: http://trac-tcm
+    command: ['--browser', 'chrome']
+    volumes:
+      - ./frontend:/e2e

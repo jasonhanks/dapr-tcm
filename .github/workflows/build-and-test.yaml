@@ -17,17 +17,11 @@ jobs:
     - name: 'Install NPM packages for Cypress'
       run: cd frontend && npm install
 
-    - name: 'Start up a MongoDB container'
-      run: docker compose up -d mongo
-
-    - name: 'Start the trac-api services'
-      run: docker compose up -d --build trac-api
-
     - name: 'Start the trac-tcm services'
-      run: docker compose up -d --build trac-tcm
+      run: docker compose up -d --build
 
     - name: 'Launch the Cypress tests'
-      run: docker compose run trac-tests
+      run: docker compose -f docker-compose-tests.yaml run trac-tests
 
     - name: 'Shut down the containers'
       run: docker compose down
