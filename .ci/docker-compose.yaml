@@ -1,0 +1,63 @@
+##
+## Sample Docker Compose deployment file. This will deploy the following containers:
+##    - MongoDB data store service    (MongoDB NoSQL persistent data store)
+##    - TRAC-API backend API service  (Express API service)
+##    - TRAC-TCM frontend UI service  (NGINX frontend service for React components and providing proxy to the TRAC-API service)
+##
+## NOTE: the MongoDB service demonstrated here is using defaults and not safe for production deployments.
+##
+
+version: '3.1'
+
+services:
+
+  # MongoDB is the NoSQL data store needed for the app
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017     # MongoDB port
+
+
+  # This container provides the TRAC-API service needed by the user interface
+  trac-api:
+    build: ../backend            # Build image from local Dockerfile
+    image: ghcr.io/jasonhanks/trac-tcm/trac-api:latest    # public image name if not building
+    restart: unless-stopped
+    depends_on: 
+      - mongo   # wait on mongo-express server to startup
+    environment:
+      # This is required to connect to the desired MongoDB instance
+      DATABASE_URL: mongodb://mongo:27017/
+      # This is required for the Node.JS proxy to work properly
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+    ports:
+      - 3001:3001       # API server port (only used for debugging the API)
+
+
+  # This container provides the TRAC-TCM user interface that connects to the TRAC-API service
+  trac-tcm:
+    build: ../frontend
+    image: ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
+    depends_on:
+      - trac-api
+    restart: unless-stopped
+    ports:
+    - "3000:80"
+    environment:
+    - NGINX_HOST=localhost
+    - NGINX_PORT=80
+
+    # Reference the backend API we're mapping /api to the service name for TRAC-API
+    - API_URL=http://trac-api:3001
+
+
+  trac-tests:
+    image: cypress/included:10.3.0
+    depends_on:
+     - trac-tcm
+    working_dir: /e2e
+    environment:
+      CYPRESS_BASE_URL: http://trac-tcm
+    volumes:
+      - ../frontend:/e2e
