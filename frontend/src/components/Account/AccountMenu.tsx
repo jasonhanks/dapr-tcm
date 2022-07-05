@@ -27,6 +27,7 @@ const AccountMenu = () => {
                           rounded={'full'}
                           variant={'link'}
                           cursor={'pointer'}
+                          data-test="account-menu-button"
                           minW={0}>
                           <Avatar
                           size={'sm'}
@@ -43,15 +44,15 @@ const AccountMenu = () => {
                           </Center>
                           <Center>
                               <div>
-                                  <Center>{user.full_name}</Center>
-                                  <Center>{user.username}</Center>
+                                  <Center data-test="full_name">{user.full_name}</Center>
+                                  <Center data-test="username">{user.username}</Center>
                               </div>
                           </Center>
                           <MenuDivider />
-                          <MenuItem>Account Settings</MenuItem>
-                          <MenuItem onClick={toggleColorMode}>Toggle Light / Dark Mode</MenuItem>
+                          <MenuItem data-test="account-settings-link">Account Settings</MenuItem>
+                          <MenuItem data-test="toggle-dark-light-link" onClick={toggleColorMode}>Toggle Light / Dark Mode</MenuItem>
                           <MenuDivider />
-                          <MenuItem onClick={() => { logoutUser() }}>Sign Out</MenuItem>
+                          <MenuItem data-test="signout-link" onClick={() => { logoutUser() }}>Sign Out</MenuItem>
                       </MenuList>
                       </Menu>
                   </Flex>                  
