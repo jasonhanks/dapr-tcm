@@ -1,3 +1,9 @@
+import DashboardPage from '../../../pages/dashboard/home'
+import SignupPage from '../../../pages/users/signup'
+
+
+const dashboardPage: DashboardPage = new DashboardPage()
+const signupPage: SignupPage = new SignupPage()
 
  
 describe('Signup form submissions', () => {
@@ -16,33 +22,27 @@ describe('Signup form submissions', () => {
 
  
       it('Validate successful Signup', () => {
-        cy.intercept('POST', '/api/users', {fixture: 'api/users/signup-valid.json', statusCode: 200}).as('validSignup')
+        cy.intercept('POST', '/api/users', {fixture: 'tcm/users/signup-valid.json', statusCode: 200}).as('validSignup')
 
-        cy.get('#username').type('valid-user@example.com')
-        cy.get('#full_name').type('Valid User')
-        cy.get('#initials').type('VU')
-        cy.get('#password').type('asdfasdf')
-        cy.get('#password_confirm').type('asdfasdf')
-        cy.get('#submit').click()
+        signupPage.typeUsername('valid-user@example.com')
+        signupPage.typeFullName('Valid User')
+        signupPage.typeInitials('VU')
+        signupPage.typePassword('asdfasdf')
+        signupPage.typePasswordConfirm('asdfasdf')
+        signupPage.clickSubmit()
         cy.wait(['@validSignup', '@defaultProject'])
     
         // Make sure we are logged in successfully
-        cy.get('#errors').should("not.exist")
-        cy.contains('p', 'TRAC TCM')
-        cy.contains('p', 'Home')
-  
-        cy.contains('select', 'Default Project')
-        cy.get('.chakra-select').should('not.be.empty')
-        cy.get('#menu-button-19').should('have.class', 'chakra-button')
-  
+        // Make sure we are logged in successfully
+        dashboardPage.findTitle().contains("TRAC TCM")
+        dashboardPage.findContentTitle().contains("Home")
+        dashboardPage.findProjectSelector().should("have.value", "Default Project")
+        
         // Open the User Menu and validate it
-        cy.get('#menu-button-19').click()
-        cy.contains('#menu-list-19 > :nth-child(3) > :nth-child(1) > :nth-child(1)', 'Valid User')
-        cy.contains('#menu-list-19 > :nth-child(3) > :nth-child(1) > :nth-child(2)', 'valid-user@example.com')
-        cy.contains('#menu-list-19 > :nth-child(5)', 'Account Settings')
-        cy.contains('#menu-list-19 > :nth-child(6)', 'Toggle Light / Dark Mode')
-        cy.contains('#menu-list-19 > :nth-child(8)', 'Sign Out')
-        cy.get('#menu-button-19').click() // Close the User Menu
+        dashboardPage.toggleAccountMenu()
+        dashboardPage.findAccountMenuFullName().contains("Valid User")
+        dashboardPage.findAccountMenuUsername().contains("valid-user@example.com")
+        dashboardPage.toggleAccountMenu()
       })
 
 

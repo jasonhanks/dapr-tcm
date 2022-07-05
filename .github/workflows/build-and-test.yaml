@@ -11,20 +11,29 @@ jobs:
     - name: Checkout the project source
       uses: actions/checkout@v2
 
-    - name: Build Docker backend API container
-      run: cd backend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-api:latest .
+    - name: 'Install NPM packages for Cypress'
+      run: cd frontend && npm install
 
-    - name: Build Docker frontend React UI container
-      run: cd frontend && docker build -t ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest .
+    - name: 'Start up a MongoDB container'
+      run: docker compose up -d mongo
 
-    # - name: Execute all of the tests
-    #   run: cd .ci && docker-compose run test
+    - name: 'Start the trac-api services'
+      run: docker compose up -d --build trac-api
 
-    # - name: Publish Test Results
-    #   uses: EnricoMi/publish-unit-test-result-action@v1
-    #   if: always()
-    #   with:
-    #     files: "frontend/cypress/results/**/*.xml"
+    - name: 'Start the trac-tcm services'
+      run: docker compose up -d --build trac-tcm
+
+    - name: 'Launch the Cypress tests'
+      run: docker compose run trac-tests
+
+    - name: 'Shut down the containers'
+      run: docker compose down
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: "frontend/cypress/results/**/*.xml"
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2

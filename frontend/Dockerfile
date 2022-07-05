@@ -31,6 +31,7 @@ COPY nginx.template /etc/nginx/conf.d/default.conf.template
 
 # Copy the custom startup script we are using
 COPY docker-entrypoint.sh /
+RUN chmod 755 /docker-entrypoint.sh
 
 # Startup the NGINX process
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -20,4 +20,5 @@ export default defineConfig({
     supportFolder: "support",
     supportFile: "cypress/support/index.js"
   },
+  video: false
 })

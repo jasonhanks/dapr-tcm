@@ -36,7 +36,7 @@ const NavBarProjectSelect = () => {
         return (<div>Loading Projects...</div>)
     } else {
         return (
-            <Select variant='filled' display="inline-block" width="initial" onChange={(e) => navigate("/projects/"+ e.target.value, { replace: true })}>
+            <Select variant='filled' display="inline-block" width="initial" data-test="project-select" onChange={(e) => navigate("/projects/"+ e.target.value, { replace: true })}>
                 {projects.map((project: any) => <option key={project._id}>{project.name}</option> )}
             </Select> 
         )
