@@ -25,18 +25,7 @@ jobs:
       run: docker run -d --name trac-api -p 3001:3001 ghcr.io/jasonhanks/trac-tcm/trac-api:latest
 
     - name: 'Start the trac-tcm services then launch the Cypress tests'
-      uses: cypress-io/github-action@v4
-      with:
-        # we have already installed all dependencies above
-        install: false
-        start: docker run -d --name trac-tcm -p 3000:3000 ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
-        wait-on: 'http://localhost:3000'
-        wait-on-timeout: 120
-        browser: chrome
-        # record: true
-        parallel: true
-        # group: 'UI - Chrome'
-        spec: frontend/cypress/e2e/*
+      run: docker run -it -v $PWD/frontend/cypress:/e2e -w /e2e --entrypoint=cypress cypress/browsers:chrome69
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
