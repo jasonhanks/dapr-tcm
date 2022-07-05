@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: 'Start the trac-tcm services then launch the Cypress tests'
-      run: docker-compose up --build --abort-on-container-exit trac-tests
+      run: docker compose up --build --abort-on-container-exit trac-tests
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
