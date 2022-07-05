@@ -14,8 +14,6 @@ services:
 
   trac-tests:
     image: cypress/included:10.3.0
-    depends_on:
-     - trac-tcm
     working_dir: /e2e
     environment:
       CYPRESS_BASE_URL: http://trac-tcm
