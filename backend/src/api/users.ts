@@ -18,7 +18,7 @@ const router = express.Router()
 
 // Implementation for /api/users GET
 router.get('/', async (request: Request, response: Response) => {
-    return response.status(200).json(await User.find({}))
+    return response.status(200).json(await User.find({}).sort('username'))
 })
 
 
