@@ -15,6 +15,13 @@ const router = express.Router()
   */
 
 
+
+// Implementation for /api/users GET
+router.get('/', async (request: Request, response: Response) => {
+    return response.status(200).json(await User.find({}))
+})
+
+
 // Implementation for /api/users DELETE
 router.delete('/:id', 
     async (request: Request, response: Response) => {
@@ -135,5 +142,31 @@ router.post('/',
         })
     }
 )
+
+
+// Implementation for /api/users PUT
+router.put('/',
+
+    // Request parameter validations
+    body('username').isEmail().withMessage('Email must be a valid working email address'),
+    body('initials').isLength({ min: 2, max: 5 }).withMessage('Initials must be between 2 and 5 chars long'),
+    body('full_name').isLength({ min: 4 }).withMessage('Full name must at least 4 chars long'),
+
+    // Login implementation
+    async (request: Request, response: Response) => {
+
+        // Check for form validation errors
+        const errors = validationResult(request)
+        if (!errors.isEmpty()) 
+            return response.status(403).json({ "errors": errors.array() })
+
+        const u = request.body
+        const new_user = await User.findOneAndUpdate({ _id: u._id }, { username: u.username, initials: u.initials, full_name: u.full_name}, { new: true })
+
+        if (new_user == null) return response.status(403).json({})
+        response.status(200).json({ user: new_user })
+    }
+)
+
 
 module.exports = router
