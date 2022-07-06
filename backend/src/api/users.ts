@@ -136,7 +136,7 @@ router.post('/',
                     response.status(401).json(err)
                     return console.log(err)
                 } 
-                response.status(200).json({ user: u })
+                response.status(201).json({ user: u })
             })
 
         })

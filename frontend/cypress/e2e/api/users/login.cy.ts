@@ -9,7 +9,7 @@ describe('USER api validations', () => {
     it('/users - POST creates a new User', () => {
         cy.request('POST', '/api/users', userRequest).as('userRequest')
         cy.get('@userRequest').then(res => {
-            expect(res.status).to.eq(200)
+            expect(res.status).to.eq(201)
             user = res.body.user
         })
     })
