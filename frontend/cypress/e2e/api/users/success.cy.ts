@@ -4,7 +4,7 @@ import userRequest from '../../../fixtures/api/users/valid-user.json'
 let user: any
 
 
-describe('USER api validations', () => {
+describe('USER api success checks', () => {
 
     it('/users - POST creates a new User', () => {
         cy.request('POST', '/api/users', userRequest).as('userRequest')
@@ -55,7 +55,6 @@ describe('USER api validations', () => {
         cy.request('DELETE', '/api/users/'+ user._id, userRequest).as('userRequest')
         cy.get('@userRequest').then(res => {
             expect(res.status).to.eq(200)
-            console.log(res.body)
         })
     })
 

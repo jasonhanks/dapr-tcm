@@ -27,8 +27,8 @@ router.delete('/:id',
     async (request: Request, response: Response) => {
         const count = await User.countDocuments({ _id: request.params.id })
         if(count == 0){
-            console.log(`Username was not found: ${ request.params.id }`)
-            return response.status(404).json({})
+            console.log(`User was not found: ${ request.params.id }`)
+            return response.status(403).json({})
         }
 
         // Delete the User
@@ -37,11 +37,11 @@ router.delete('/:id',
         // Verify that we were able to remove the User
         const newCount = await User.countDocuments({ _id: request.params.id })
         if(newCount != count-1) {
-            console.log(`Username was not deleted: ${ request.params.id }`)
+            console.log(`User was not deleted: ${ request.params.id }`)
             return response.status(403).json({})
         }
 
-        console.log(`Username was deleted: ${ request.params.id }`)
+        console.log(`Deleted User: ${ request.params.id }`)
         return response.status(200).json({})
     }
 )
@@ -68,15 +68,15 @@ router.post('/login',
             // Authenticate using the known hash with what we create from the specified password
             await user.authenticate(request.body.password, (authenticated: boolean) => {
                 if(authenticated) {
-                    console.log("Authentication succesful username="+ request.body.username)
+                    console.log(`Login successful for user: ${request.body.username}`)
                     return response.status(200).json({ user: user })
                 } else {
-                    console.log("Authentication failed username="+ request.body.username)
+                    console.log(`Login failed for user: ${request.body.username}`)
                     return response.status(401).json({})
                 }
             })
         } else {
-            console.log("Authentication failed username="+ request.body.username)
+            console.log(`Login failed for user: ${request.body.username}`)
             return response.status(401).json({})
         }
     }
@@ -130,12 +130,13 @@ router.post('/',
             })
 
             // Save the User to the DB
-            console.log("Creating User username="+ request.body.username)
             user.save((err: any, u: typeof User) => {
                 if(err) {
+                    console.log(`Unable to create User: ${JSON.stringify(request.body)}`)
                     response.status(401).json(err)
                     return console.log(err)
                 } 
+                console.log(`Created User: ${JSON.stringify(request.body)}`)
                 response.status(201).json({ user: u })
             })
 
@@ -162,8 +163,12 @@ router.put('/',
 
         const u = request.body
         const new_user = await User.findOneAndUpdate({ _id: u._id }, { username: u.username, initials: u.initials, full_name: u.full_name}, { new: true })
+        if (new_user == null) {
+            console.log(`User was not updated: ${JSON.stringify(u)}`)
+            return response.status(403).json({})
+        }
 
-        if (new_user == null) return response.status(403).json({})
+        console.log(`Updated user: ${JSON.stringify(new_user)}`)
         response.status(200).json({ user: new_user })
     }
 )
