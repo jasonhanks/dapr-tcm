@@ -1,4 +1,7 @@
 {
     "username": "valid-user@example.com",
-    "password": "asdfasdf" 
+    "full_name": "Valid User",
+    "initials": "VU",
+    "password": "asdfasdf",
+    "password_confirm": "asdfasdf"
 }
