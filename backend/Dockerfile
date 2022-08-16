@@ -38,3 +38,6 @@ ENV DATABASE_URL "mongodb://localhost:27017/"
 
 # Start the service(s)
 CMD [ "npm", "run", "serve" ]
+
+
+LABEL org.opencontainers.image.description TRAC-TCM API backend service
