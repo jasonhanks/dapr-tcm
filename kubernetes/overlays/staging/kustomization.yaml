@@ -1,0 +1,49 @@
+
+bases:
+- ../../base
+
+
+resources:
+- namespace.yaml
+- ingress.yaml
+- pvc.yaml
+
+
+namespace: trac-staging
+
+
+
+commonLabels:
+  env: staging
+
+
+commonAnnotations:
+  support: "none"
+
+patchesStrategicMerge:
+- patch-mongo-resources.yaml
+- patch-api-resources.yaml
+- patch-ui-resources.yaml
+
+
+patchesJson6902:
+- target: 
+    version: v1
+    kind: Service
+    name: trac-tcm-ui
+  path: service-patch.json
+- target: 
+    version: v1
+    kind: Service
+    name: trac-tcm-api
+  path: service-patch.json
+- target: 
+    version: v1
+    kind: Service
+    name: trac-tcm-mongo
+  path: service-patch.json
+- target: 
+    version: v1
+    kind: Deployment
+    name: trac-tcm-mongo
+  path: volume-patch.json

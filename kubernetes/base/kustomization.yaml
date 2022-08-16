@@ -1,0 +1,22 @@
+
+
+configMapGenerator:
+  - name: trac-tcm
+    literals:
+      - API_URL=http://trac-tcm-api:3001
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+      - DATABASE_URL=mongodb://trac-tcm-mongo:27017/trac-tcm
+      - ME_CONFIG_MONGODB_URL=mongodb://trac-tcm-mongo:27017/
+      - BASE_URL=http://localhost
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+
+
+
+resources:
+- service-trac-mongo.yaml
+- service-trac-api.yaml
+- service-trac-ui.yaml
+- deploy-mongo.yaml
+- deploy-trac-api.yaml
+- deploy-trac-ui.yaml

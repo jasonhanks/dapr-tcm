@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: trac-tcm-api
+  name: trac-tcm-api
+spec:
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trac-tcm-api
+  template:
+    metadata:
+      labels:
+        app: trac-tcm-api
+    spec:
+      hostname: trac-tcm-api
+      containers:
+      - image: ghcr.io/jasonhanks/trac-tcm/trac-api:latest
+        name: trac-tcm-api
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: trac-tcm
+        ports:
+        - containerPort: 3001
