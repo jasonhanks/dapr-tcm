@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: trac-tcm-mongo
+  name: trac-tcm-mongo
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trac-tcm-mongo
+  template:
+    metadata:
+      labels:
+        app: trac-tcm-mongo
+    spec:
+      hostname: trac-tcm-mongo
+      containers:
+      - image: mongo:4.4
+        name: trac-tcm-mongo
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: "/data/db"
+          name: mongodb
+        ports:
+        - containerPort: 27017
+      volumes:
+        - name: mongodb
+          emptyDir: {}
