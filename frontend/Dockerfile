@@ -38,3 +38,6 @@ EXPOSE 80
 # Startup the NGINX process
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
+
+
+LABEL org.opencontainers.image.description TRAC-TCM React UI frontend service
