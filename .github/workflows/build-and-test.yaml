@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
 
 jobs:
   build-and-test:
@@ -47,4 +49,19 @@ jobs:
     - name: Publish trac-tcm image to GHCR
       run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest
       if: github.ref == 'refs/heads/main'
-      
+
+    - name: Create trac-api image tag from build tag
+      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-api:latest ghcr.io/jasonhanks/trac-tcm/trac-api:${{ GITHUB_REF_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')
+
+    - name: Create trac-tcm image tag from build tag
+      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ GITHUB_REF_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')
+
+    - name: Publish trac-api image to GHCR for the tag
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-api:${{ GITHUB_REF_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')
+
+    - name: Publish trac-tcm image to GHCR for the tag
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ GITHUB_REF_NAME }}
+      if: startsWith(github.ref, 'refs/tags/')
