@@ -60,16 +60,16 @@ jobs:
 
     steps:
     - name: Create trac-api image tag from build tag
-      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-api:latest ghcr.io/jasonhanks/trac-tcm/trac-api:${{ GITHUB_REF_NAME }}
+      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-api:latest ghcr.io/jasonhanks/trac-tcm/trac-api:${{ env.GITHUB_REF_NAME }}
 
     - name: Create trac-tcm image tag from build tag
-      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ GITHUB_REF_NAME }}
+      run: docker tag ghcr.io/jasonhanks/trac-tcm/trac-tcm:latest ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ env.GITHUB_REF_NAME }}
 
     - name: Publish trac-api image to GHCR for the tag
-      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-api:${{ GITHUB_REF_NAME }}
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-api:${{ env.GITHUB_REF_NAME }}
 
     - name: Publish trac-tcm image to GHCR for the tag
-      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ GITHUB_REF_NAME }}
+      run: docker push ghcr.io/jasonhanks/trac-tcm/trac-tcm:${{ env.GITHUB_REF_NAME }}
 
     - name: Build Changelog
       id: github_release
