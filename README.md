@@ -46,6 +46,5 @@ This tool is built using the following technologies:
 * React frontend components (https://github.com/facebook/react)
 * User interface components using Chakra UI (https://chakra-ui.com)
 * User interface icons using React Icons [Feather] (https://github.com/react-icons/react-icons)
-* Microservice architecture and scaling using DAPR (https://dapr.io/)
 * Automated UI testing using Cypress (https://cypress.io)
 
