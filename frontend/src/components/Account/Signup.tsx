@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import {
+    Center,
     FormControl,
     FormHelperText,
     FormLabel,
     Input,
-    Text
+    Text,
+    useColorModeValue,
 } from '@chakra-ui/react'
 
 import '../App/App.css'
@@ -56,11 +58,19 @@ export default function Signup(args: any) {
     }
         // Render the login form
     return(
-        <div className="login-wrapper">
-
-            <Text fontSize={20} fontWeight={500}>Signup for Account</Text>
+        <div>
+            <Center
+                height="12"
+                alignItems="center"
+                bg={useColorModeValue('teal.400', 'teal.700')}
+                borderBottomWidth="1px"
+                borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+                >
+            
+                <Text fontSize={20} fontWeight={500}>Signup for Account</Text>
+            </Center>
             <br/>
-
+            <div className="login-wrapper">
             <form action="" method="post" onSubmit={handleSubmit}>
                 <FormControl isRequired isInvalid={username.length < 5}>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
@@ -95,7 +105,7 @@ export default function Signup(args: any) {
                 </FormControl>
                 <br/>
                 <FormControl>
-                    <Input id='submit' type='Submit' data-test="submit" onClick={handleSubmit} />
+                    <Input id='submit' type='Submit' bg={useColorModeValue('teal.400', 'teal.700')} data-test="submit" onClick={handleSubmit} />
                     <FormHelperText data-test="submit-help">Create your new account.</FormHelperText>
                 </FormControl>
             </form>
@@ -109,6 +119,7 @@ export default function Signup(args: any) {
             </userContext.Consumer>
 
             <br/>
+            </div>
         </div>
     )
 }
