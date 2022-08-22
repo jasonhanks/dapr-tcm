@@ -55,10 +55,7 @@ export default function Login(args: any) {
             <Center
                 height="12"
                 alignItems="center"
-                bg={useColorModeValue('teal.400', 'teal.700')}
-                borderBottomWidth="1px"
-                borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-                >
+                bg={useColorModeValue('teal.400', 'teal.700')}>
             
                 <Text fontSize={20} fontWeight={500}>Login to Account</Text>
             </Center>

@@ -22,10 +22,12 @@ import AccountMenu from "../Account/AccountMenu"
 import NavBarProjectSelect from "./NavBarProjectSelect"
 
 interface NavBarProps extends FlexProps {
+  showProject?: boolean
+  title?: string
 }
   
   
-const NavBar = ({ ...rest }: NavBarProps) => {
+const NavBar = ({ showProject, title, ...rest }: NavBarProps) => {
   const navigate = useNavigate()
   return (
     <Flex
@@ -33,9 +35,8 @@ const NavBar = ({ ...rest }: NavBarProps) => {
       height="12"
       alignItems="center"
       bg={useColorModeValue('teal.400', 'teal.900')}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent={{ base: 'space-between', md: 'flex-start' }}
+      borderWidth="2px"
+      borderColor={useColorModeValue('teal.400', 'teal.700')}
       {...rest}>
 
       <HStack spacing={{ base: '0', md: '4' }}>
@@ -53,14 +54,22 @@ const NavBar = ({ ...rest }: NavBarProps) => {
           </Button>
         </ButtonGroup>
 
-        <Text fontSize={16} fontWeight={600} data-test="title-text">TRAC TCM</Text>
-        <NavBarProjectSelect ></NavBarProjectSelect>
+        <Text fontSize={24} fontWeight={700} data-test="title-text">TRAC TCM</Text>
+        {title != null && 
+          <Text fontSize={24} fontWeight={600} data-test="content-title">|&nbsp; {title} &nbsp;|</Text>
+        }
+
+        {showProject && 
+          <NavBarProjectSelect ></NavBarProjectSelect>
+        }
+
 
         <ButtonGroup variant="link" size="md">
           <Tasks />
           <Notifications />
           <AccountMenu />
         </ButtonGroup>
+
       </HStack>
     </Flex>
   )
