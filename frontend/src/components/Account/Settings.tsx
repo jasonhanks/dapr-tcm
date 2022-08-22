@@ -22,7 +22,6 @@ export default function AccountSettings(args: any) {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const toast = useToast( )
   const context = useContext(userContext)
-  const color = useColorModeValue('teal.400', 'teal.700')
 
   const onSubmit = async (data: any) => {
     // Post the form to the backend
@@ -37,7 +36,7 @@ export default function AccountSettings(args: any) {
     if (results.user != null) {
         console.log("User "+ data.username +" was updated:")
         console.log(results.user)
-        context.user = results.user
+        args.setUser(results.user)
 
         toast({
           title: "Account details were updated!",
@@ -59,11 +58,12 @@ export default function AccountSettings(args: any) {
   return(
     <div>
       <NavBar title="Account Settings" />
-      <br/>
+    
+      <br />
       <div className="login-wrapper">
             <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
               <VStack>
-                <FormControl isRequired >
+                <FormControl isRequired>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
                     <Input type='text' placeholder="Email address" data-test="username" {...register("username", { 
                       value: context.user.username,
@@ -71,6 +71,7 @@ export default function AccountSettings(args: any) {
                       minLength: { value: 5, message: "Minimum length is 5" }, 
                       maxLength: { value: 255, message: "Maximum length is 255" }
                       })} />
+                    <FormHelperText data-test="username-help">Email address is required as your login.</FormHelperText>
                     {errors.username && <AlertPop title={errors.username.message} />}
                 </FormControl>  
                 <br/>
@@ -82,6 +83,7 @@ export default function AccountSettings(args: any) {
                       minLength: { value: 4, message: "Minimum length is 4" }, 
                       maxLength: { value: 255, message: "Maximum length is 255" }
                     })} />
+                    <FormHelperText data-test="full-name-help">Full name is required to display to other users.</FormHelperText>
                     {errors.full_name && <AlertPop title={errors.full_name.message} />}
                 </FormControl>
                 <br/>
@@ -93,6 +95,7 @@ export default function AccountSettings(args: any) {
                       minLength: { value: 2, message: "Minimum length is 2" }, 
                       maxLength: { value: 5, message: "Maximum length is 5" }
                     })}/>
+                    <FormHelperText data-test="initials-help">Initials are required to display your name shortened.</FormHelperText>
                     {errors.initials && <AlertPop title={errors.initials.message} />}
                 </FormControl>
                 <br/>
