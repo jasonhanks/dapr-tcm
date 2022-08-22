@@ -1,11 +1,19 @@
 import {
+    Button,
     ButtonGroup,
     Flex,
     FlexProps,
     HStack,
+    IconButton,
     Text,
     useColorModeValue,
 } from "@chakra-ui/react"
+
+import { useNavigate } from 'react-router-dom'
+
+import { 
+  FiHome,
+} from "react-icons/fi";
 
 import NavMenu from './NavMenu';
 import Notifications from './Notifications'
@@ -18,6 +26,7 @@ interface NavBarProps extends FlexProps {
   
   
 const NavBar = ({ ...rest }: NavBarProps) => {
+  const navigate = useNavigate()
   return (
     <Flex
       px={{ base: 4, md: 4 }}
@@ -32,6 +41,18 @@ const NavBar = ({ ...rest }: NavBarProps) => {
       <HStack spacing={{ base: '0', md: '4' }}>
         <NavMenu />
   
+        <ButtonGroup variant="link" size="md">
+          <Button
+            as={IconButton}
+            onClick={() => navigate("/")}
+            rounded={'full'}
+            size="md"
+            color={useColorModeValue('teal.600', 'teal.400')}
+            cursor={'pointer'}
+            icon={<FiHome />}>
+          </Button>
+        </ButtonGroup>
+
         <Text fontSize={16} fontWeight={600} data-test="title-text">TRAC TCM</Text>
         <NavBarProjectSelect ></NavBarProjectSelect>
 
