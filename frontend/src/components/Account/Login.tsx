@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { 
     Center,
     FormControl,
-    FormErrorMessage,
     FormHelperText,
     FormLabel,
     Input,
     Text,
     useColorModeValue,
+    useToast,
+    VStack,
 } from "@chakra-ui/react"
+import { useForm } from "react-hook-form"
 
 import './Login.css'
+
+import AlertPop from '../App/AlertPop'
 import submitJSON from '../../utils'
 
 import {userContext} from '../App/context'
@@ -19,34 +23,36 @@ import {userContext} from '../App/context'
 
 
 export default function Login(args: any) {  
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [errors, setErrors] = useState('')
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const toast = useToast( )
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault()
-        setErrors('')
-
+    const onSubmit = async (data: any) => {
         // Post the login form to the backend
         const results = await submitJSON('/api/users/login', {
-            username: username,
-            password: password
+            username: data.username,
+            password: data.password
         }, "POST")
         
         // Check to see if we received our token
         if (results.user != null) {
-            console.log("User "+ username +" was logged in with token: ")
+            console.log("User "+ data.username +" was logged in with token: ")
             console.log(results.user)
             args.setUser(results.user)
+            toast({
+                title: "Login successful!",
+                status: "success",
+                duration: 3000,
+                isClosable: true
+            })
         } else {
-            console.log("User "+ username +" was not logged in")
-            setErrors("Invalid username or password")
+            console.log("User "+ data.username +" was not logged in")
+            toast({
+                title: "Invalid username or password!",
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            })        
         }
-    }
-
-    const validatePassword = (): boolean => {
-        if (password.length < 8) return false
-        return true
     }
 
     // Render the login form
@@ -61,33 +67,36 @@ export default function Login(args: any) {
             </Center>
             <br/>
             <div className="login-wrapper">
-            <form action="" method="post" onSubmit={handleSubmit}>
-
-            <FormControl isRequired isInvalid={username.length < 5}>
-                <FormLabel htmlFor='username'>Email address</FormLabel>
-                <Input id='username' name="username" type='text' data-test="username" onChange={(e) => setUsername(e.target.value)} />
-                <FormHelperText data-test="username-help">Email address is required as your login.</FormHelperText>
-            </FormControl>
-            <br/>
-            <FormControl isRequired isInvalid={!validatePassword()}>
-                <FormLabel htmlFor='password'>Password</FormLabel>
-                <Input id='password' name="password" type='password' data-test="password" onChange={(e) => setPassword(e.target.value)} />
-                {validatePassword() ? 
+            <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
+                <VStack>
+                    <FormControl isRequired>
+                        <FormLabel htmlFor='username'>Email address</FormLabel>
+                        <Input type='text' data-test="username" {...register("username", { 
+                            required: "Please enter email address",
+                            minLength: { value: 5, message: "Minimum length is 5" }, 
+                            maxLength: { value: 255, message: "Maximum length is 255" }
+                        })} />
+                        <FormHelperText data-test="username-help">Email address is required as your login.</FormHelperText>
+                        {errors.username && <AlertPop title={errors.username.message} />}
+                    </FormControl>
+                    <br/>
+                    <FormControl isRequired>
+                        <FormLabel htmlFor='password'>Password</FormLabel>
+                        <Input type='password' data-test="password" {...register("password", { 
+                            required: "Please enter email address",
+                            minLength: { value: 8, message: "Minimum length is 8" }, 
+                            maxLength: { value: 255, message: "Maximum length is 255" }
+                        })} />
                         <FormHelperText data-test="password-help">Never reuse or share your passwords with anyone.</FormHelperText>
-                     : 
-                        <FormErrorMessage data-test="password-error">Enter a valid password.</FormErrorMessage>
-                }
-            </FormControl>
-            <br/>
-            <FormControl>
-                <Input id='submit' type='Submit' data-test="submit" bg={useColorModeValue('teal.400', 'teal.700')} onClick={handleSubmit} />
-                <FormHelperText data-test="submit-help">Login to your account.</FormHelperText>
-                {errors.length > 0 && <FormErrorMessage data-test="submit-error">Enter your login email address.</FormErrorMessage>}
-            </FormControl>
+                        {errors.password && <AlertPop title={errors.password.message} />}
+                    </FormControl>
+                    <br/>
+                    <FormControl>
+                        <Input id='submit' type='Submit' data-test="submit" bg={useColorModeValue('teal.400', 'teal.700')} />
+                    </FormControl>
+                </VStack>
             </form>
 
-            <br/>
-            <div id="errors" className="errors" data-test="errors">{ errors }</div>
             <br/>
             <div>
                 <userContext.Consumer>

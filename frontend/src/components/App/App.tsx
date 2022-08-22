@@ -38,7 +38,7 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route index element={<Home />} />
-                <Route path="/account/settings" element={<AccountSettings />} />
+                <Route path="/account/settings" element={<AccountSettings setUser={setUser} />} />
                 <Route path="/projects" element={<Projects />}  />
                 <Route path="/projects/:id" element={<ViewProject />} />
                 <Route path="/projects/new" element={<CreateProject />} />
