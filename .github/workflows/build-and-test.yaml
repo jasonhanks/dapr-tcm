@@ -30,6 +30,7 @@ jobs:
       run: docker compose down
 
     - name: Publish Test Results
+      if: always()
       uses: EnricoMi/publish-unit-test-result-action@v1
       with:
         files: "frontend/cypress/results/**/*.xml"
