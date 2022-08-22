@@ -17,7 +17,7 @@ const AboutUs = () => {
                 About Us
             </Text>
             <br/>
-            <Link href="https://github.com/jasonhanks/dapr-tcm">Project Home: https://github.com/jasonhanks/dapr-tcm</Link>
+            <Link href="https://github.com/jasonhanks/trac-tcm">Project Home: https://github.com/jasonhanks/trac-tcm</Link>
 
             <br/><br/>
 

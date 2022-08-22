@@ -10,12 +10,15 @@ import {
     MenuList,
     useColorMode
 } from "@chakra-ui/react"
+import { useNavigate } from 'react-router-dom'
 
 import {userContext} from '../App/context'
 
 
 const AccountMenu = () => {
     const { toggleColorMode } = useColorMode();
+    const navigate = useNavigate()
+
     return (
         <userContext.Consumer>
             {({logoutUser, user}) => {
@@ -49,7 +52,7 @@ const AccountMenu = () => {
                               </div>
                           </Center>
                           <MenuDivider />
-                          <MenuItem data-test="account-settings-link">Account Settings</MenuItem>
+                          <MenuItem data-test="account-settings-link" onClick={() => navigate("/account/settings")}>Account Settings</MenuItem>
                           <MenuItem data-test="toggle-dark-light-link" onClick={toggleColorMode}>Toggle Light / Dark Mode</MenuItem>
                           <MenuDivider />
                           <MenuItem data-test="signout-link" onClick={() => { logoutUser() }}>Sign Out</MenuItem>
