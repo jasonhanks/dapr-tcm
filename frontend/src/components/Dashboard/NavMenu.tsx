@@ -6,6 +6,7 @@ import {
     MenuDivider,
     MenuItem,
     MenuList,
+    useColorModeValue,
 } from "@chakra-ui/react"
 
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +25,7 @@ import {
 
 const NavMenu = () => {
     const navigate = useNavigate()
+
     // <IconButton variant="link" size="md" icon={<HamburgerIcon />} onClick={() => navigate("/")} aria-label="open menu" />
     return (
         <Flex alignItems={'center'}>
@@ -32,12 +34,12 @@ const NavMenu = () => {
                     as={IconButton}
                     rounded={'full'}
                     size="md"
-                    variant="solid"
                     cursor={'pointer'}
+                    color={useColorModeValue('teal.600', 'teal.400')}
+                    variant="link"
                     icon={<FiMenu />}>
                 </MenuButton>
                 <MenuList alignItems={'center'}>
-                    <MenuItem icon={<FiHome />} onClick={() => navigate("/")}>Home</MenuItem>
                     <MenuItem icon={<FiStar />} onClick={() => navigate("/favorites")}>Favorites</MenuItem>
                     <MenuItem icon={<FiTrendingUp />} onClick={() => navigate("/")}>Recent</MenuItem>
                     <MenuDivider />

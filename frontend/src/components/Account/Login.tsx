@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
 import { 
+    Center,
     FormControl,
     FormErrorMessage,
     FormHelperText,
     FormLabel,
     Input,
     Text,
+    useColorModeValue,
 } from "@chakra-ui/react"
 
 import './Login.css'
@@ -49,9 +51,19 @@ export default function Login(args: any) {
 
     // Render the login form
     return(
-        <div className="login-wrapper">
-            <Text fontSize={20} fontWeight={500}>Login to Account</Text>
+        <div>
+            <Center
+                height="12"
+                alignItems="center"
+                bg={useColorModeValue('teal.400', 'teal.700')}
+                borderBottomWidth="1px"
+                borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+                >
+            
+                <Text fontSize={20} fontWeight={500}>Login to Account</Text>
+            </Center>
             <br/>
+            <div className="login-wrapper">
             <form action="" method="post" onSubmit={handleSubmit}>
 
             <FormControl isRequired isInvalid={username.length < 5}>
@@ -71,7 +83,7 @@ export default function Login(args: any) {
             </FormControl>
             <br/>
             <FormControl>
-                <Input id='submit' type='Submit' data-test="submit" onClick={handleSubmit} />
+                <Input id='submit' type='Submit' data-test="submit" bg={useColorModeValue('teal.400', 'teal.700')} onClick={handleSubmit} />
                 <FormHelperText data-test="submit-help">Login to your account.</FormHelperText>
                 {errors.length > 0 && <FormErrorMessage data-test="submit-error">Enter your login email address.</FormErrorMessage>}
             </FormControl>
@@ -86,6 +98,7 @@ export default function Login(args: any) {
                 </userContext.Consumer>
 
                 <br/>
+            </div>
             </div>
         </div>
     )

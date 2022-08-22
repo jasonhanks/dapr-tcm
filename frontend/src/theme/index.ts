@@ -20,13 +20,13 @@ export default extendTheme({
 
     // Foundations
     colors,
-    fonts,
+    ...fonts,
 
     // Components
     // Button
 },
 withDefaultColorScheme({
-    colorScheme: 'tcm',
+    colorScheme: 'trac',
     // components: [
     //     'Button',
     //     'Checkbox',

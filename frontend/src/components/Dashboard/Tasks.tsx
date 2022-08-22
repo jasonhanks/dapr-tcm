@@ -7,6 +7,7 @@ import {
     MenuDivider,
     MenuList,
     Text,
+    useColorModeValue,
 } from "@chakra-ui/react"
 import { FiList } from "react-icons/fi";
 
@@ -14,6 +15,7 @@ import {userContext} from '../App/context'
 
 
 const Tasks = () => {
+    const color = useColorModeValue('teal.600', 'teal.400')
     return (
         <userContext.Consumer>
             {({logoutUser, user}) => {
@@ -25,6 +27,7 @@ const Tasks = () => {
                             rounded={'full'}
                             size="md"
                             variant={'link'}
+                            color={color}
                             cursor={'pointer'}
                             icon={<FiList />}>
                         </MenuButton>
