@@ -7,8 +7,6 @@ const signupPage: SignupPage = new SignupPage()
  
 describe('Signup form submissions', () => {
 
-    const TEXT_INVALID_LOGIN  = 'Invalid username or password'
-    
     beforeEach(() => {
       cy.visit('/')
       cy.get("button").contains("Click here to Sign Up").click() // Navigate to the Signup form
@@ -22,50 +20,54 @@ describe('Signup form submissions', () => {
 
  
       it('shows an error message for all required inputs with nothing filled out', () => {
-        cy.intercept('POST', '/api/users', {fixture: '../fixtures/tcm/users/signup-invalid-all.json', statusCode: 403}).as('invalidSignup')
+        signupPage.findUsernameHelp().invoke("text").then(text => expect(text).to.eq("Enter the email you'd like to use as your login."))
+        signupPage.findPasswordHelp().invoke("text").then(text => expect(text).to.eq("Never reuse or share your passwords."))
+        signupPage.findFullNameHelp().invoke("text").then(text => expect(text).to.eq("Enter your preferred full name to use."))
+        signupPage.findInitialsHelp().invoke("text").then(text => expect(text).to.eq("Enter your preferred short name / initials to use."))
+        signupPage.findPasswordConfirmHelp().invoke("text").then(text => expect(text).to.eq("Please confirm your new password."))
         signupPage.clickSubmit()
-        cy.wait('@invalidSignup')
-        signupPage.findErrors()
-          .contains('Email must be a valid working email address')
-          .contains('Initials must be between 2 and 5 chars long')
-          .contains('Passwords must be at least 8 chars long')
-          .contains('Password confirmations must be at least 8 chars long')
-          .contains('Full name must at least 4 chars long')
+
+        const errors: any = signupPage.findErrors().each((item, index, list) => {
+          if(index === 0) expect(item.text()).to.eq("Please enter your email address")
+          else if(index === 1) expect(item.text()).to.eq("Please enter your full name")
+          else if(index === 2) expect(item.text()).to.eq("Please enter your initials")
+          else if(index === 3) expect(item.text()).to.eq("Please enter your password")
+          else if(index === 4) expect(item.text()).to.eq("Please enter your password again")
+        })
+        console.log(errors)
       })
 
 
       it('shows an error if email is invalid', () => {
         const ERROR_MSG = "Email must be a valid working email address"
 
-        cy.intercept('/api/users/', {fixture: '../fixtures/tcm/users/signup-invalid-email.json', statusCode: 403}).as('invalidSignup')
+        cy.intercept('/users', {fixture: '../fixtures/tcm/users/signup-invalid-email.json', statusCode: 403}).as('invalidSignup')
   
-        signupPage.typeInitials('VU')
         signupPage.typeFullName('Valid User')
+        signupPage.typeInitials('VU')
         signupPage.typePassword('asdfasdf')
         signupPage.typePasswordConfirm('asdfasdf')
-
-        // // Check for blank values
-        signupPage.findUsername().clear()
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        signupPage.findErrors().each((item, index) => { if(index === 0) expect(item.text()).to.eq("Please enter your email address") })
 
         // // Make sure it requires a domain
         signupPage.typeUsername('invalid-email-address')
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        // cy.wait('@invalidSignup')
+        signupPage.findAlert().invoke('text').then((text) => expect(text).to.equal("Error: Email must be a valid working email address\n!"))
+        cy.get("[aria-label=Close]").click()
 
         // // Make sure it's a valid formatted domain
         signupPage.typeUsername('@invalid-domain')
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        signupPage.findAlert().invoke('text').then((text) => expect(text).to.equal("Error: Email must be a valid working email address\n!"))
+        cy.get("[aria-label=Close]").click()
       })
 
   
       it('shows an error if initials is invalid', () => {
         const ERROR_MSG = "Initials must be between 2 and 5 chars long"
 
-        cy.intercept('/api/users/', {fixture: '../fixtures/tcm/users/signup-invalid-initials.json', statusCode: 403}).as('invalidSignup')
-  
         signupPage.typeUsername('valid-user@example.com')
         signupPage.typeFullName('Valid User')
         signupPage.typePassword('asdfasdf')
@@ -74,23 +76,22 @@ describe('Signup form submissions', () => {
         // Check for blank values
         signupPage.findInitials().clear()
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        signupPage.findErrors().each((item, index) => { if(index === 0) expect(item.text()).to.eq("Please enter your initials") })
 
         // Must be at least 2 characters long
         signupPage.typeInitials('I')
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        signupPage.findErrors().each((item, index) => { if(index === 0) expect(item.text()).to.eq("Minimum length is 2") })
 
         // Must be at most 5 characters long
+        signupPage.findInitials().clear()
         signupPage.typeInitials('ABCDEF')
         signupPage.clickSubmit()
-        signupPage.findErrors().contains(ERROR_MSG)
+        signupPage.findErrors().each((item, index) => { if(index === 0) expect(item.text()).to.eq("Maximum length is 4") })
       })
 
 
       it('shows an error if passwords are invalid', () => {
-        cy.intercept('/api/users/', {fixture: '../fixtures/tcm/users/signup-invalid-password.json', statusCode: 403}).as('invalidSignup')
-  
         signupPage.typeUsername('valid-user@example.com')
         signupPage.typeFullName('Valid User')
         signupPage.typeInitials('VU')
@@ -99,22 +100,20 @@ describe('Signup form submissions', () => {
         // Check for blank values
         signupPage.findPassword().clear()
         signupPage.clickSubmit()
-        signupPage.findErrors()
-          .contains('Passwords must be at least 8 chars long')
-          .contains('Password and confirmation password must match')
+        signupPage.findErrors().each((item, index) => { 
+          if(index === 0) expect(item.text()).to.eq("Please enter your password") 
+        })
 
         // Password is too short (boundary)
         signupPage.typePassword('1234567')
         signupPage.clickSubmit()
-        signupPage.findErrors()
-          .contains('Passwords must be at least 8 chars long')
-          .contains('Password and confirmation password must match')
+        signupPage.findErrors().each((item, index) => { 
+          if(index === 0) expect(item.text()).to.eq("Minimum length is 8") 
+        })
       })
 
       
       it('shows an error if confirmation passwords are invalid', () => {
-        cy.intercept('/api/users/', {fixture: '../fixtures/tcm/users/signup-invalid-password-confirm.json', statusCode: 403}).as('invalidSignup')
-  
         signupPage.typeUsername('valid-user@example.com')
         signupPage.typeFullName('Valid User')
         signupPage.typeInitials('VU')
@@ -123,30 +122,26 @@ describe('Signup form submissions', () => {
         // Check for blank values
         signupPage.findPasswordConfirm().clear()
         signupPage.clickSubmit()
-        signupPage.findErrors()
-          .contains('Password confirmations must be at least 8 chars long')
-          .contains('Password and confirmation password must match')
+        signupPage.findErrors().each((item, index) => { if(index === 0) expect(item.text()).to.eq("Please enter your password again") })
 
         // Password is too short (boundary)
         signupPage.typePasswordConfirm('1234567')
         signupPage.clickSubmit()
-        signupPage.findErrors()
-          .contains('Password confirmations must be at least 8 chars long')
-          .contains('Password and confirmation password must match')
+        signupPage.findErrors().each((item, index) => {  if(index === 0) expect(item.text()).to.eq("Minimum length is 8")  })
       })
 
 
       it('shows an error if passwords do not match', () => {
-        cy.intercept('/api/users/', {fixture: '../fixtures/tcm/users/signup-invalid-password-mismatch.json', statusCode: 403}).as('invalidSignup')
-  
+        cy.intercept('/api/users', {fixture: '../fixtures/tcm/users/signup-invalid-password-mismatch.json', statusCode: 403}).as('invalidSignup')
         signupPage.typeUsername('valid-user@example.com')
         signupPage.typeFullName('Valid User')
         signupPage.typeInitials('VU')
         signupPage.typePassword('asdfasdf')
-        signupPage.typePasswordConfirm('1234567')
+        signupPage.typePasswordConfirm('12345678')
         signupPage.clickSubmit()
-        signupPage.findErrors()
-          .contains('Password and confirmation password must match')
+        cy.wait('@invalidSignup')
+        signupPage.findAlert().invoke('text').then((text) => expect(text).to.equal("Error: Password and confirmation password must match\n!"))
+
       })
 
 
