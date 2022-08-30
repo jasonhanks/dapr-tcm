@@ -1,7 +1,6 @@
 import LoginPage from '../../../pages/users/login'
 
 
-const TEXT_INVALID_LOGIN  = 'Invalid username or password'
 
 const loginPage: LoginPage = new LoginPage()
 
@@ -21,8 +20,7 @@ describe('Login form submissions', () => {
       it('shows error when using an empty username', () => {
         loginPage.typePassword('asdfasdf')
         loginPage.clickSubmit()
-        cy.wait('@invalidLogin')
-        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
+        loginPage.findUsernameError()
       })
     
       it('shows error when using username is not an email address', () => {
@@ -30,20 +28,19 @@ describe('Login form submissions', () => {
         loginPage.typePassword('asdfasdf')
         loginPage.clickSubmit()
         cy.wait('@invalidLogin')
-        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
+        loginPage.findAlert().invoke('text').then((text) => expect(text).to.equal("Invalid username or password!"))
       })
     
       it('shows error when using an empty password', () => {
         loginPage.typeUsername('valid-user@gmail.com')
         loginPage.clickSubmit()
-        cy.wait('@invalidLogin')
-        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
+        loginPage.findPasswordError()
       })
     
       it('shows error when Submitting an empty form', () => {
         loginPage.clickSubmit()
-        cy.wait('@invalidLogin')
-        loginPage.findErrors().contains(TEXT_INVALID_LOGIN)
+        loginPage.findUsernameError()
+        loginPage.findPasswordError()
       })
   
     })

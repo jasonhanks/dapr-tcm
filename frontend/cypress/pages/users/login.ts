@@ -11,8 +11,16 @@ export default class LoginPage {
         return this.findSubmit().click()
     }
 
+    findAlert() {
+        return cy.get('div.chakra-alert')
+    }
+
     findErrors() {
         return cy.getBySel('errors')
+    }
+
+    findUsernameError() {
+        return cy.contains("Please enter email address")
     }
 
     findUsernameHelp() {
@@ -32,7 +40,7 @@ export default class LoginPage {
     }
 
     findSubmit() {
-        return cy.getBySel('submit')
+        return cy.get('input[data-test="submit"]')
     }
 
     typePassword(value) {

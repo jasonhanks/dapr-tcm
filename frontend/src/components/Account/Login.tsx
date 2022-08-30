@@ -69,7 +69,7 @@ export default function Login(args: any) {
             <div className="login-wrapper">
             <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
                 <VStack>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='username'>Email address</FormLabel>
                         <Input type='text' data-test="username" {...register("username", { 
                             required: "Please enter email address",
@@ -80,10 +80,10 @@ export default function Login(args: any) {
                         {errors.username && <AlertPop title={errors.username.message} />}
                     </FormControl>
                     <br/>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Input type='password' data-test="password" {...register("password", { 
-                            required: "Please enter email address",
+                            required: "Please enter your password",
                             minLength: { value: 8, message: "Minimum length is 8" }, 
                             maxLength: { value: 255, message: "Maximum length is 255" }
                         })} />
