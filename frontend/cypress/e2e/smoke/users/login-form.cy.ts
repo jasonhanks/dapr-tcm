@@ -25,20 +25,17 @@ describe('Login form validations', () => {
         cy.get('#submit').should('be.visible')
         loginPage.findSubmit().should('be.visible')
         loginPage.findUsernameHelp().contains(TEXT_EMAIL_REQD)
-        loginPage.findPasswordError().contains(TEXT_VALID_PASSWD)
+        loginPage.findPasswordHelp().contains(TEXT_PASSWD_REUSE)
       })
   
       it('changes Password help text when filled out', () => {
         loginPage.findUsernameHelp().contains(TEXT_EMAIL_REQD)
-        loginPage.findPasswordError().contains(TEXT_VALID_PASSWD)
-        loginPage.typePassword("asdfasdf")
-
         loginPage.findPasswordHelp().contains(TEXT_PASSWD_REUSE)
       })
   
       it('shows no errors when properly filled out', () => {
         loginPage.findUsernameHelp().contains(TEXT_EMAIL_REQD)
-        loginPage.findPasswordError().contains(TEXT_VALID_PASSWD)
+        loginPage.findPasswordHelp().contains(TEXT_PASSWD_REUSE)
         loginPage.typeUsername('valid-user@gmail.com')
         loginPage.typePassword('asdfasdf')
         loginPage.findUsernameHelp().contains(TEXT_EMAIL_REQD)

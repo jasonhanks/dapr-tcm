@@ -27,6 +27,7 @@ describe('Login form submissions', () => {
         loginPage.findPasswordHelp().contains(TEXT_PASSWD_REUSE)
         loginPage.clickSubmit()
         cy.wait(['@validLogin', '@defaultProject'])
+        loginPage.findAlert().invoke("text").then(text => expect(text).to.eq("Login successful!"))
   
         // Make sure we are logged in successfully
         dashboardPage.findTitle().contains("TRAC TCM")
