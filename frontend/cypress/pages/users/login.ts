@@ -16,7 +16,7 @@ export default class LoginPage {
     }
 
     findErrors() {
-        return cy.getBySel('errors')
+        return cy.get('[role=alert]')
     }
 
     findUsernameError() {
