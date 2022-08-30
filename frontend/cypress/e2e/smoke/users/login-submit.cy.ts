@@ -34,13 +34,15 @@ describe('Login form submissions', () => {
       it('shows error when using an empty password', () => {
         loginPage.typeUsername('valid-user@gmail.com')
         loginPage.clickSubmit()
-        loginPage.findPasswordError()
+        loginPage.findErrors().each((item: any, index: number) => { if(index === 0) expect(item.text()).to.eq("Please enter your password") })
       })
     
       it('shows error when Submitting an empty form', () => {
         loginPage.clickSubmit()
-        loginPage.findUsernameError()
-        loginPage.findPasswordError()
+        loginPage.findErrors().each((item: any, index: number) => { 
+          if(index === 0) expect(item.text()).to.eq("Please enter email address") 
+          else if(index === 1) expect(item.text()).to.eq("Please enter your password") 
+        })
       })
   
     })
