@@ -30,7 +30,8 @@ describe('Signup form submissions', () => {
         signupPage.typePassword('asdfasdf')
         signupPage.typePasswordConfirm('asdfasdf')
         signupPage.clickSubmit()
-        cy.wait(['@validSignup', '@defaultProject'])
+        cy.wait(['@validSignup', '@defaultProject'])        
+        signupPage.findAlert().invoke("text").then(text => expect(text).to.eq("Your account has been created!"))
     
         // Make sure we are logged in successfully
         // Make sure we are logged in successfully

@@ -63,11 +63,11 @@ export default function Signup(args: any) {
         }
     }
  
-    const validatePassword = (password: string): boolean => {
-        if (password.length <= 8) return false
-        return true
-    }
-        // Render the login form
+    // const validatePassword = (password: string): boolean => {
+    //     if (password.length <= 8) return false
+    //     return true
+    // }
+    // Render the login form
     return(
         <div>
             <Center
@@ -84,7 +84,7 @@ export default function Signup(args: any) {
             <div className="login-wrapper">
             <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
                     <VStack>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='username'>Email address</FormLabel>
                         <Input type='text' data-test="username" {...register("username", { 
                                 required: "Please enter your email address",
@@ -97,7 +97,7 @@ export default function Signup(args: any) {
                         {errors.username && <AlertPop title={errors.username.message} />}
                     </FormControl>
                     <br/>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='full_name'>Full Name</FormLabel>
                         <Input type='text' data-test="full_name" {...register("full_name", { 
                                 required: "Please enter your full name",
@@ -108,7 +108,7 @@ export default function Signup(args: any) {
                         {errors.full_name && <AlertPop title={errors.full_name.message} />}
                     </FormControl>
                     <br/>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='initials'>Initials</FormLabel>
                         <Input type='text' data-test="initials" {...register("initials", { 
                                 required: "Please enter your initials",
@@ -119,7 +119,7 @@ export default function Signup(args: any) {
                         {errors.initials && <AlertPop title={errors.initials.message} />}
                     </FormControl>
                     <br/>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <Input type='password' data-test="password" {...register("password", { 
                                 required: "Please enter your password",
@@ -130,7 +130,7 @@ export default function Signup(args: any) {
                         {errors.password && <AlertPop title={errors.password.message} />}
                     </FormControl>
                     <br/>
-                    <FormControl isRequired>
+                    <FormControl>
                         <FormLabel htmlFor='password_confirm'>Confirm Password</FormLabel>
                         <Input type='password' data-test="password_confirm" {...register("password_confirm", { 
                                 required: "Please enter your password again",

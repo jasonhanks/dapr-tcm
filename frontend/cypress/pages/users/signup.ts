@@ -11,8 +11,12 @@ export default class LoginPage {
         return this.findSubmit().click()
     }
 
+    findAlert() {
+        return cy.get('div.chakra-alert')
+    }
+
     findErrors() {
-        return cy.getBySel('errors')
+        return cy.get('[role=alert]')
     }
 
     findFullNameHelp() {
