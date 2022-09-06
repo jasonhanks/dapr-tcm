@@ -63,9 +63,9 @@ export default function AccountSettings(args: any) {
       <div className="login-wrapper">
             <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
               <VStack>
-                <FormControl isRequired>
+                <FormControl>
                     <FormLabel htmlFor='username'>Email address</FormLabel>
-                    <Input type='text' placeholder="Email address" data-test="username" {...register("username", { 
+                    <Input disabled type='text' placeholder="Email address" data-test="username" {...register("username", { 
                       value: context.user.username,
                       required: "Please enter email address",
                       minLength: { value: 5, message: "Minimum length is 5" }, 
@@ -75,9 +75,9 @@ export default function AccountSettings(args: any) {
                     {errors.username && <AlertPop title={errors.username.message} />}
                 </FormControl>  
                 <br/>
-                <FormControl isRequired>
+                <FormControl>
                     <FormLabel htmlFor='full_name'>Full Name</FormLabel>
-                    <Input type='text' placeholder="Full name" data-test="full_name" {...register("full_name", { 
+                    <Input type='text' placeholder="Full name" data-test="full-name" {...register("full_name", { 
                       value: context.user.full_name,
                       required: "Please enter your full name",
                       minLength: { value: 4, message: "Minimum length is 4" }, 
@@ -87,7 +87,7 @@ export default function AccountSettings(args: any) {
                     {errors.full_name && <AlertPop title={errors.full_name.message} />}
                 </FormControl>
                 <br/>
-                <FormControl isRequired>
+                <FormControl>
                     <FormLabel htmlFor='initials'>Initials</FormLabel>
                     <Input type='text' placeholder="Initials" data-test="initials" {...register("initials", { 
                       value: context.user.initials,

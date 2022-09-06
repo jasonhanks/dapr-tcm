@@ -19,16 +19,8 @@ export default class LoginPage {
         return cy.get('[role=alert]')
     }
 
-    findUsernameError() {
-        return cy.contains("Please enter email address")
-    }
-
     findUsernameHelp() {
         return cy.getBySel('username-help')
-    }
-
-    findPasswordError() {
-        return cy.getBySel('password-error')
     }
 
     findPasswordHelp() {
