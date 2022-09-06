@@ -27,14 +27,13 @@ describe('Signup form submissions', () => {
         signupPage.findPasswordConfirmHelp().invoke("text").then(text => expect(text).to.eq("Please confirm your new password."))
         signupPage.clickSubmit()
 
-        const errors: any = signupPage.findErrors().each((item, index, list) => {
+        signupPage.findErrors().each((item, index, list) => {
           if(index === 0) expect(item.text()).to.eq("Please enter your email address")
           else if(index === 1) expect(item.text()).to.eq("Please enter your full name")
           else if(index === 2) expect(item.text()).to.eq("Please enter your initials")
           else if(index === 3) expect(item.text()).to.eq("Please enter your password")
           else if(index === 4) expect(item.text()).to.eq("Please enter your password again")
         })
-        console.log(errors)
       })
 
 

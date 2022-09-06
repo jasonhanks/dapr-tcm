@@ -20,7 +20,7 @@ describe('Login form submissions', () => {
       it('shows error when using an empty username', () => {
         loginPage.typePassword('asdfasdf')
         loginPage.clickSubmit()
-        loginPage.findUsernameError()
+        loginPage.findErrors().each((item: any, index: number) => { if(index === 0) expect(item.text()).to.eq("Please enter email address") })
       })
     
       it('shows error when using username is not an email address', () => {

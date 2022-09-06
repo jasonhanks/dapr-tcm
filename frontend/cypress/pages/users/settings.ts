@@ -1,11 +1,7 @@
 import '../../../cypress/support/commands'
 
 
-export default class LoginPage {
-
-    clickSignup() {
-        return cy.getBySel('signup').click()
-    }
+export default class SettingsPage {
 
     clickSubmit() {
         return this.findSubmit().click()
@@ -17,6 +13,14 @@ export default class LoginPage {
 
     findErrors() {
         return cy.get('[role=alert]')
+    }
+
+    findFullName() {
+        return cy.getBySel('full-name')
+    }
+
+    findInitials() {
+        return cy.getBySel('initials')
     }
 
     findUsernameHelp() {
