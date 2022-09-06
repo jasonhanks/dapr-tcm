@@ -19,16 +19,20 @@ export default class SettingsPage {
         return cy.getBySel('full-name')
     }
 
+    findFullNameHelp() {
+        return cy.getBySel('full-name-help')
+    }
+
     findInitials() {
         return cy.getBySel('initials')
     }
 
-    findUsernameHelp() {
-        return cy.getBySel('username-help')
+    findInitialsHelp() {
+        return cy.getBySel('initials-help')
     }
 
-    findPasswordHelp() {
-        return cy.getBySel('password-help')
+    findUsernameHelp() {
+        return cy.getBySel('username-help')
     }
 
     findSubmitHelp() {
@@ -37,14 +41,6 @@ export default class SettingsPage {
 
     findSubmit() {
         return cy.get('input[data-test="submit"]')
-    }
-
-    typePassword(value) {
-        return cy.getBySel('password').click().type(value)
-    }
-
-    typeUsername(value) {
-        return cy.getBySel('username').click().type(value)
     }
 
 }
