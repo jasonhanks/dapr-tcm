@@ -14,7 +14,6 @@ describe('Settings form validations', () => {
     beforeEach(() => {
         cy.visit('/')
         cy.get("button").contains("Accept").click() // Close the disclaimer for Firefox
-        cy.intercept('PUT', '/api/users', {fixture: 'tcm/users/settings-invalid.json'}).as('invalidSettings')
         cy.intercept('GET', '/api/projects', {fixture: 'tcm/projects/default.json'}).as('defaultProject')
         cy.intercept('POST', '/api/users/login', {fixture: 'tcm/users/login-valid.json' }).as('validLogin')
 
@@ -24,6 +23,7 @@ describe('Settings form validations', () => {
         loginPage.clickSubmit()
         cy.wait(['@validLogin', '@defaultProject'])
         loginPage.findAlert().invoke("text").then(text => expect(text).to.eq("Login successful!"))
+        cy.get("[aria-label=Close]").click()
 
         // Navigate to the Account Settings
         dashboardPage.toggleAccountMenu()
@@ -49,6 +49,33 @@ describe('Settings form validations', () => {
             else if(index === 1) expect(item.text()).to.eq("Please enter your initials")
           })
 
+        })
+
+        it("shows an error message for all fields that are too long", () => {
+          let longName = ""
+          for(var i = 0; i <= 256; i++) longName += "x"
+          
+          settingsPage.findFullName().clear()
+          settingsPage.findFullName().type(longName)
+          settingsPage.findInitials().clear()
+          settingsPage.findInitials().type("123456")
+          settingsPage.findSubmit().click()
+          settingsPage.findErrors().each((item, index, list) => {
+            if(index === 0) expect(item.text()).to.eq("Maximum length is 255")
+            else if(index === 1) expect(item.text()).to.eq("Maximum length is 5")
+          })
+        })
+                
+        it("updates the values when they are valid", () => {
+        cy.intercept('PUT', '/api/users', {fixture: 'tcm/users/settings-valid.json'}).as('validSettings')
+
+        settingsPage.findFullName().clear()
+          settingsPage.findFullName().type("Valid T. User")
+          settingsPage.findInitials().clear()
+          settingsPage.findInitials().type("VTU")
+          settingsPage.findSubmit().click()
+          cy.wait(['@validSettings'])
+          settingsPage.findAlert().invoke("text").then(text => expect(text).to.eq("Account details were updated!"))
         })
                 
     })
